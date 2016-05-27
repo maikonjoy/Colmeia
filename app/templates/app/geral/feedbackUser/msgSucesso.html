@@ -1,0 +1,9 @@
+﻿<script>
+    setTimeout(function () {
+        $('#feedback').fadeOut('slow');
+    }, 5000);
+</script>
+<div class="alert alert-success fade in" id="feedback">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>Olá!</strong> {{ msg }}
+</div>

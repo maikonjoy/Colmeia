@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{ccfe2649-ae28-4392-9d16-c0e553b6726e}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>manage.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{5F0BE9CA-D677-4A4D-8806-6076C0FAAD37};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Django launcher</LaunchProvider>
+    <InterpreterId>{2af0f10d-7135-4994-9156-5d01c9c11b7e}</InterpreterId>
+    <InterpreterVersion>2.7</InterpreterVersion>
+    <UseIISExpress>true</UseIISExpress>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="app\static\app\content\bootstrap.css" />
+    <Content Include="app\static\app\content\bootstrap.min.css" />
+    <Content Include="app\static\app\content\cssSite.css" />
+    <Content Include="app\static\app\content\full-slider.css" />
+    <Content Include="app\static\app\content\site.css" />
+    <Content Include="app\static\app\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="app\static\app\scripts\bootstrap.js" />
+    <Content Include="app\static\app\scripts\bootstrap.min.js" />
+    <Content Include="app\static\app\scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="app\static\app\scripts\jquery-1.10.2.js" />
+    <Content Include="app\static\app\scripts\jquery-1.10.2.min.js" />
+    <Content Include="app\static\app\scripts\jquery.js" />
+    <Content Include="app\static\app\scripts\jquery.validate-vsdoc.js" />
+    <Content Include="app\static\app\scripts\jquery.validate.js" />
+    <Content Include="app\static\app\scripts\jquery.validate.min.js" />
+    <Content Include="app\static\app\scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="app\static\app\scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="app\static\app\scripts\modernizr-2.6.2.js" />
+    <Content Include="app\static\app\scripts\respond.js" />
+    <Content Include="app\static\app\scripts\respond.min.js" />
+    <Content Include="app\static\app\scripts\scriptsSite.js" />
+    <Content Include="app\static\app\scripts\_references.js" />
+    <Content Include="app\static\sistema\bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="app\static\sistema\bootstrap\css\bootstrap.min.css" />
+    <Content Include="app\static\sistema\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="app\static\sistema\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="app\static\sistema\bootstrap\js\bootstrap.min.js" />
+    <Content Include="app\static\sistema\css\theme.css" />
+    <Content Include="app\static\sistema\images\anuncios\2.jpg" />
+    <Content Include="app\static\sistema\images\anuncios\a11.png" />
+    <Content Include="app\static\sistema\images\anuncios\a21.png" />
+    <Content Include="app\static\sistema\images\anuncios\b05.png" />
+    <Content Include="app\static\sistema\images\anuncios\b21.png" />
+    <Content Include="app\static\sistema\images\anuncios\blue.jpg" />
+    <Content Include="app\static\sistema\images\anuncios\contratante.png" />
+    <Content Include="app\static\sistema\images\anuncios\prestador.png" />
+    <Content Include="app\static\sistema\images\anuncios\purple.jpg" />
+    <Content Include="app\static\sistema\images\anuncios\red.jpg" />
+    <Content Include="app\static\sistema\images\bg.png" />
+    <Content Include="app\static\sistema\images\icons\add.png" />
+    <Content Include="app\static\sistema\images\icons\agenda.png" />
+    <Content Include="app\static\sistema\images\icons\business139.png" />
+    <Content Include="app\static\sistema\images\icons\certification.png" />
+    <Content Include="app\static\sistema\images\icons\clock.png" />
+    <Content Include="app\static\sistema\images\icons\css\font-awesome.css" />
+    <Content Include="app\static\sistema\images\icons\delete.png" />
+    <Content Include="app\static\sistema\images\icons\diferenciais.png" />
+    <Content Include="app\static\sistema\images\icons\edit.png" />
+    <Content Include="app\static\sistema\images\icons\editar.png" />
+    <Content Include="app\static\sistema\images\icons\excluir.png" />
+    <Content Include="app\static\sistema\images\icons\novosUsuarios.png" />
+    <Content Include="app\static\sistema\images\icons\pontos.png" />
+    <Content Include="app\static\sistema\images\icons\prestadores.png" />
+    <Content Include="app\static\sistema\images\icons\progress.png" />
+    <Content Include="app\static\sistema\images\icons\scheme11.png" />
+    <Content Include="app\static\sistema\images\icons\servicesPrestados.png" />
+    <Content Include="app\static\sistema\images\icons\servicos.png" />
+    <Content Include="app\static\sistema\images\icons\servicosPrest2.png" />
+    <Content Include="app\static\sistema\images\img.jpg" />
+    <Content Include="app\static\sistema\images\jquery-ui\picker.png" />
+    <Content Include="app\static\sistema\images\logo.png" />
+    <Content Include="app\static\sistema\images\logoNegativo.png" />
+    <Content Include="app\static\sistema\images\sucesso.png" />
+    <Content Include="app\static\sistema\images\user.png" />
+    <Content Include="app\static\sistema\scripts\common.js" />
+    <Content Include="app\static\sistema\scripts\datatables\jquery.dataTables.js" />
+    <Content Include="app\static\sistema\scripts\docs.min.js" />
+    <Content Include="app\static\sistema\scripts\flot\jquery.flot.js" />
+    <Content Include="app\static\sistema\scripts\flot\jquery.flot.pie.js" />
+    <Content Include="app\static\sistema\scripts\flot\jquery.flot.resize.js" />
+    <Content Include="app\static\sistema\scripts\ie10-viewport-bug-workaround.js" />
+    <Content Include="app\static\sistema\scripts\jquery-1.9.1.min.js" />
+    <Content Include="app\static\sistema\scripts\jquery-ui-1.10.1.custom.min.js" />
+    <Content Include="app\static\sistema\scripts\jquery.mask.min.js" />
+    <Content Include="app\static\sistema\scripts\jssor.slider.mini.js" />
+    <Content Include="app\templates\app\geral\feedbackUser\msgAlerta.html" />
+    <Content Include="app\templates\app\geral\feedbackUser\msgSucesso.html" />
+    <Content Include="app\templates\app\prestador\diferenciais.html" />
+    <Content Include="app\templates\app\prestador\disponibilidade.html" />
+    <Content Include="app\templates\app\site\CadastroUsuarioC.html" />
+    <Content Include="app\templates\app\site\CadastroUsuarioP.html" />
+    <Content Include="app\templates\app\contratante\servContratados.html" />
+    <Content Include="app\templates\app\geral\menuCont.html" />
+    <Content Include="app\templates\app\geral\menuPrest.html" />
+    <Content Include="app\templates\app\geral\menuAdm.html" />
+    <Content Include="app\templates\app\geral\feedbackUser\msgErro.html" />
+    <Content Include="app\templates\app\geral\resultados.html" />
+    <Content Include="app\templates\app\index.html" />
+    <Content Include="app\templates\app\geral\layout.html" />
+    <Content Include="app\templates\app\geral\login.html" />
+    <Content Include="app\templates\app\geral\loginpartial.html" />
+    <Content Include="app\templates\app\admin\admin.html" />
+    <Content Include="app\templates\app\prestador\colmeiaPontos.html" />
+    <Content Include="app\templates\app\admin\contratantes.html" />
+    <Content Include="app\templates\app\prestador\relatorioPrestador.html" />
+    <Content Include="app\templates\app\prestador\gerServicos.html" />
+    <Content Include="app\templates\app\contratante\pesquisaServicos.html" />
+    <Content Include="app\templates\app\prestador\servicosOferecidos.html" />
+    <Content Include="app\templates\app\admin\prestadores.html" />
+    <Content Include="app\templates\app\geral\quemSomos.html" />
+    <Content Include="app\templates\app\admin\relatorioAdm.html" />
+    <Content Include="app\templates\app\contratante\relatorioContratante.html" />
+    <Content Include="app\templates\app\geral\menu.html" />
+    <Content Include="app\templates\app\site\indexSite.html" />
+    <Content Include="app\templates\app\site\layoutSite.html" />
+    <Content Include="app\templates\app\site\confirmaCadastro.html" />
+    <Content Include="app\templates\app\site\s_contato.html" />
+    <Content Include="app\templates\app\site\s_quemSomos.html" />
+    <Content Include="obj\Debug\Colmeia.pyproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\deployment-updated-orig-prefix.txt" />
+    <Content Include="requirements.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="app\forms.py" />
+    <Compile Include="app\models.py" />
+    <Compile Include="app\views.py" />
+    <Compile Include="app\__init__.py" />
+    <Compile Include="bin\wfastcgi.py" />
+    <Compile Include="Colmeia\p_disponibilidade.py" />
+    <Compile Include="Colmeia\p_endereco.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Colmeia\p_categoria.py" />
+    <Compile Include="Colmeia\p_diferencial.py" />
+    <Compile Include="Colmeia\p_clienteServico.py" />
+    <Compile Include="Colmeia\p_servico.py" />
+    <Compile Include="Colmeia\p_perfil.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Colmeia\p_usuario.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Colmeia\settings.py" />
+    <Compile Include="Colmeia\urls.py" />
+    <Compile Include="Colmeia\wsgi.py" />
+    <Compile Include="Colmeia\__init__.py" />
+    <Compile Include="manage.py" />
+    <Compile Include="obj\Debug\attach_server.py" />
+    <Compile Include="obj\Debug\visualstudio_py_debugger.py" />
+    <Compile Include="obj\Debug\visualstudio_py_repl.py" />
+    <Compile Include="obj\Debug\visualstudio_py_util.py" />
+    <Compile Include="obj\Debug\__init__.py" />
+    <Compile Include="obj\Debug\__main__.py" />
+    <Compile Include="ptvs_virtualenv_proxy.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app" />
+    <Folder Include="app\static\" />
+    <Folder Include="app\static\app\" />
+    <Folder Include="app\static\app\content" />
+    <Folder Include="app\static\app\fonts" />
+    <Folder Include="app\static\app\scripts" />
+    <Folder Include="app\static\sistema\" />
+    <Folder Include="app\static\sistema\bootstrap\" />
+    <Folder Include="app\static\sistema\bootstrap\css" />
+    <Folder Include="app\static\sistema\bootstrap\img" />
+    <Folder Include="app\static\sistema\bootstrap\js" />
+    <Folder Include="app\static\sistema\css" />
+    <Folder Include="app\static\sistema\images" />
+    <Folder Include="app\static\sistema\images\icons\" />
+    <Folder Include="app\static\sistema\images\icons\css" />
+    <Folder Include="app\static\sistema\images\jquery-ui" />
+    <Folder Include="app\static\sistema\images\anuncios\" />
+    <Folder Include="app\static\sistema\scripts" />
+    <Folder Include="app\static\sistema\scripts\datatables" />
+    <Folder Include="app\static\sistema\scripts\flot" />
+    <Folder Include="app\templates\" />
+    <Folder Include="app\templates\app" />
+    <Folder Include="app\templates\app\admin\" />
+    <Folder Include="app\templates\app\geral\" />
+    <Folder Include="app\templates\app\geral\feedbackUser\" />
+    <Folder Include="app\templates\app\site\" />
+    <Folder Include="app\templates\app\prestador\" />
+    <Folder Include="app\templates\app\contratante\" />
+    <Folder Include="bin" />
+    <Folder Include="Colmeia" />
+    <Folder Include="obj\" />
+    <Folder Include="obj\Debug" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\2.7" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Django.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:21295/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>True</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

@@ -1,0 +1,242 @@
+﻿{% extends "app/geral/layout.html" %}
+ {% load staticfiles %}
+{% block content %}
+{% load humanize %}
+
+<script src="{% static 'sistema/scripts/jquery-1.9.1.min.js' %}" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#id_IdSubCategoria').prop('disabled', true);
+        $('#incluir').on('click', function () {
+            //populate the textbox		
+            $('#formServico').each(function () {
+                this.reset();
+            });
+            $('#id_IdSubCategoria').prop('disabled', true);
+            $("#myModal").modal();
+           
+        });
+
+        $('#id_IndicadorTipoServico').on('change', function () {
+            //pega o atributo data-id do botao clicado.
+            //alert($(this).val());
+            if ($(this).val() == 1) {
+                $('#id_ValorHora').prop('readonly', false);
+            }
+            else {
+                $('#id_ValorHora').val('0.00');
+                $('#id_ValorHora').prop('readonly', true);
+            }
+        });
+
+        
+        $('#id_IdCategoria').on('change', function () {
+            var categoriaID = $(this).val();
+            $.ajax({
+                url: 'subCategorias/',
+                type: 'POST',
+                data: { 'idCategoria' : categoriaID, 'csrfmiddlewaretoken': $("input[name = 'csrfmiddlewaretoken']").val()},
+                success: function (response) {
+                    result = JSON.parse(response);
+                    if (result) {
+                        $('#id_IdSubCategoria').empty()  // Use to empty the select
+                        $('#id_IdSubCategoria').append($('<option>', {
+                            value: '',
+                            text: '-- Escolha uma SubCategoria --'
+                        }));
+
+                        $.each(result, function () {
+                            $('#id_IdSubCategoria').append($('<option>', {
+                                value: this.pk,
+                                text: this.fields['DescricaoSubCategoria']
+                            }));
+                            $('#id_IdSubCategoria').prop('disabled',false);
+                        });
+                    } else {
+                        console.log('error');
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
+        });
+            
+            $('.editar').on('click', function () {
+                //pega o atributo data-id do botao clicado.
+                var objJSON = $(this).data('item');
+
+                if (typeof objJSON != 'object')
+                {
+                    objJSON = objJSON.replace(/(\r\n|\n|\r)/gm, "");
+                    objJSON = JSON.parse(objJSON);
+                }
+                
+                $('#formServico').attr("action", "contrataServico/?id=" + objJSON.IdServico);
+                $('#id_ValorHora').prop('readonly', true);
+
+                var categoriaID = objJSON.IdCategoria
+                //alert(categoriaID);
+                $.ajax({
+                    url: 'subCategorias/',
+                    type: 'POST',
+                    data: { 'idCategoria' : categoriaID, 'csrfmiddlewaretoken': $("input[name = 'csrfmiddlewaretoken']").val()},
+                    success: function (response) {
+                        result = JSON.parse(response);
+                        if (result) {
+                            $('#id_IdSubCategoria').empty()  // Use to empty the select
+
+                            $('#id_IdSubCategoria').append($('<option>', {
+                                value: '',
+                                text: '-- Escolha uma SubCategoria --'
+                            }));
+
+                            $.each(result, function () {
+                                $('#id_IdSubCategoria').append($('<option>', {
+                                    value: this.pk,
+                                    text: this.fields['DescricaoSubCategoria']
+                                }));
+                                $('#id_IdSubCategoria').prop('readonly', true);
+                                $("select[name='IdSubCategoria']").val(objJSON.IdSubCategoria);
+                            });
+                        } else {
+                            console.log('error');
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+
+                });
+                console.log(objJSON.IndicadorTipoServico);
+                //populate the textbox		
+                $("select[name='IdCategoria']").val(objJSON.IdCategoria);
+                $("select[name='IdSubCategoria']").val(objJSON.IdSubCategoria);
+                $("select[name='IndicadorTipoServico']").val(objJSON.IndicadorTipoServico);
+                $("input[name='ValorHora']").val(objJSON.ValorHora);
+                $("textarea[name='DescricaoServico']").val(objJSON.DescricaoServico);
+
+                //Abre o modal
+                $("#myModal").modal();
+            });
+        });
+
+   
+</script>
+
+<div class="span3">
+{% include "app/geral/menu.html" %}
+ </div>
+<div class="span10">
+	<div class="content">
+
+		<div class="module">
+			<div class="module-head">
+				<h2>Contratante</h2>
+			</div>
+			<div class="module-body" style="">
+                <h2 style=""> Serviços </h2>
+                
+                {% if msg %}
+                    {% include "app/geral/feedbackUser/msgSucesso.html" %}
+                {% endif %}
+                
+                
+                <hr>
+                
+                 {% if servicos %}
+                <table cellpadding="0" cellspacing="0" border="0" class="datatable-1 table table-bordered table-striped	 display"
+                    width="100%" style="table-layout: fixed;word-wrap:break-word;">
+                    <thead>
+                        <tr style="text-align:center;">
+                            <th> 
+                                Categoria / Subcategoria
+                            </th>
+                            <th>
+                                Tipo Serviço
+                            </th>
+                            
+                            <th style="width:40%;">
+                                Descrição
+                            </th>
+                            <th style="width:10%;">
+                                Ações
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    
+                        {% for servico in servicos %}
+                                <tr class="odd gradeX">
+                                    <td align="center">
+                                        {{ servico.IdCategoria.DescricaoCategoria }} - {{ servico.IdSubCategoria.DescricaoSubCategoria }}
+                                    </td>
+                                 
+                                    <td>
+                                       {% if servico.IndicadorTipoServico = 1 %} 
+                                         Remunerado <br> <b> R$ {{ servico.ValorHora | floatformat:2|intcomma }}/hora</b>
+                                       {% else %}
+                                        Voluntário
+                                       {% endif %}
+                                    </td>
+                                    
+                                    <td class="center">
+                                         {{ servico.DescricaoServico}}
+                                    </td>
+                                    <td class="center">
+                                    <!-- ALTERAR -->
+                                    <div style="float:left;display:inline-block;" >
+                                        <a class="editar" data-toggle="modal" title="Contratar" data-item='{"IdServico": "{{servico.IdServico}}","IdCategoria": "{{servico.IdCategoria_id}}", "IdSubCategoria" : "{{servico.IdSubCategoria_id}}", "IndicadorTipoServico": "{{ servico.IndicadorTipoServico }}", "ValorHora": "{{servico.ValorHora}}", "DescricaoServico" : "{{servico.DescricaoServico}}"}'> 
+                                        <img src="{% static 'sistema/images/icons/servicosPrest2.png'%}" width="25px"/>
+                                        </a>
+                                    </div>
+                                </tr>
+                        {% endfor %}
+                        </table>
+                        
+                    {% endif %}
+                        
+                    {% if not servicos %}    
+                        <h3> N&atilde;o existem serviços cadastrados.</h3>
+                    {% endif %}
+                <hr />
+			</div>
+		</div>
+        
+	</div><!--/.content-->
+</div><!--/.span9-->
+
+            <!-- Modal -->
+          <div class="modal fade" id="myModal" role="dialog" style="display: inline-block;">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">{{title}}</h4>
+                </div>
+                <div class="modal-body" >
+                 
+                     <form class="form-horizontal row-fluid" id="formServico" action="contrataServico" method="POST">
+                    {% csrf_token %}
+    	             {% if frmContratar %}
+				    	<div class="control-group" >
+						  <div class="controls" style="display: inline-block;margin-left:100px;">
+                                    {{ frmContratar }}
+							</div>
+						</div>
+                     {% else %}
+                        Erro ao carregar formulário.
+                     {% endif %}
+						
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="span1 btn btn-danger" data-dismiss="modal" style="float:right;margin-left:3;">Cancelar</button>			
+					            <button type="submit" class="span1 btn btn-primary" style="float:right;">Gravar</button>
+                    </form>      
+                </div>
+              </div>
+            </div>
+           </div>
+{% endblock %}         		

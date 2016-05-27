@@ -1,0 +1,30 @@
+﻿
+				<!-- INICIO MENU CONTRATANTE  -->
+				<li style="margin-top:-20px;">
+					<a class="collapsed" data-toggle="collapse" href="#menuContratante">
+						<i class="menu-icon icon-group"></i>
+						<i class="icon-chevron-down pull-right"></i><i class="icon-chevron-up pull-right"></i>
+						Contratante
+					</a>
+					<ul id="menuContratante" class="collapse unstyled">
+						<li>
+							<a href="{% url 'pesquisaServicos' %}">
+								<i class="icon-inbox"></i>
+								Pesquisar Serviços
+							</a>
+						</li>
+						<li>
+							<a href="{% url 'servContratados' %}">
+								<i class="icon-inbox"></i>
+								Serviços Contratados
+							</a>
+						</li>
+						<li>
+							<a href="{% url 'relContratante' %}">
+								<i class="icon-inbox"></i>
+								Relatórios
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- FIM MENU CONTRATANTE  -->

@@ -1,0 +1,23 @@
+﻿{% extends "app/site/layoutSite.html" %}
+{% load staticfiles %}
+
+{% block content %}
+ <div class="container marketing">
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading"> Contato </h2>
+                <p class="lead"> {{ nome }}, </p>
+                <img src="{% static 'sistema/images/sucesso.png' %}" width="200" />
+                <p class="lead"> O seu cadastro como {{ tipo }} foi realizado com sucesso. Aguarde a aprova&ccedil;&atilde;o da administra&ccedil;&atilde;o.  </p>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+{% endblock %}

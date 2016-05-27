@@ -1,0 +1,81 @@
+﻿{% extends "app/geral/layout.html" %}
+
+{% block content %}
+<div class="span3">
+{% include "app/geral/menu.html" %}
+ </div>
+<div class="span9">
+    <div class="content">
+	<div class="module">
+            <div class="module-head">
+                <h3>
+                    Aprova&ccedil;&atilde;o de novos Contratantes </h3>
+            </div>
+            <div class="module-body table">
+                
+                {% if usuariosPendentes %}
+                <table cellpadding="0" cellspacing="0" border="0" class="datatable-1 table table-bordered table-striped	 display"
+                    width="100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                Nome
+                            </th>
+                            <th>
+                                E-mail / Login
+                            </th>
+                            <th>
+                                Telefone Principal
+                            </th>
+                            <th>
+                                CPF/CNPJ
+                            </th>
+                            <th>
+                                Perfil
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    
+                        {% for nome, username, telefone1, CpfCnpj, Perfil,id in usuariosPendentes %}
+                                <tr class="odd gradeX">
+                                    <td>
+                                        {{ nome }}
+                                    </td>
+                                    <td>
+                                        {{ username }}
+                                    </td>
+                                    <td>
+                                        {{ telefone1 }}
+                                    </td>
+                                    <td class="center">
+                                         {{ CpfCnpj}}
+                                    </td>
+                                    <td class="center">
+                                        {{ Perfil }}
+                                    </td>
+                                    <td class="center">
+                                        <a href="aprova_usuariosC/?id={{id}}" class="glyphicon glyphicon-fullscreen"> Aprovar</a>
+                                    </td>
+                                </tr>
+                        {% endfor %}
+                    {% endif %}
+                        
+                    {% if not usuariosPendentes %}    
+                        <h3> N&atilde;o existem Contratantes pendentes.</h3>
+                    {% endif %}
+                     </tbody>
+                    <tfoot> </tfoot>
+                </table>
+            </div>
+        </div>
+        <!--/.module-->
+        <!--/.module-->
+
+    </div>
+    <!--/.content-->
+</div>
+<!--/.span9-->
+      
+{% endblock %}

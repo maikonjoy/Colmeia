@@ -1,0 +1,24 @@
+{% extends "app/geral/layout.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="span3">
+{% include "app/geral/menu.html" %}
+ </div>
+  <!--/span-->
+        <div class="span9">
+            <div class="jumbotron">
+               
+                <h3> Ol&aacute; {{ user.first_name }}, bem vindo(a) &agrave; Colmeia! </h3>
+                <p>Em  um mundo em que as pessoas utilizam crescentemente a Web para tarefas rotineiras, 
+                parece natural  que,  em  pouco  tempo,  prestadores  de  servi&ccedil;o  e  pessoas  necessitando  de  servi&ccedil;os  
+                espec&iacute;ficos busquem  maneiras  mais  &agrave;geis  e  pr&aacute;ticas  de  entrarem  em  contato.  Atualmente,  &eacute;  comum  
+                que  ambos  os lados gastem muito tempo nesta tarefa, ou realizando propaganda que &eacute; dif&iacute;cil de ser direcionada 
+                e atingir seu  p&uacute;blico  alvo,  ou  procurando  aleatoriamente  an&uacute;ncios  ou  recorrendo  a  indica&ccedil;&atilde;o  nem  sempre
+                  muito precisas de amigos e parentes.</p>
+              
+                </p>
+
+                <div style="text-align:center;"> <img src="{% static 'sistema/images/logo.png'%}" alt="Col&eacute;ia" width="400px"/> </div>
+            </div>
+        </div>
+{% endblock %}

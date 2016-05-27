@@ -1,0 +1,37 @@
+﻿{% load staticfiles %}
+
+				<!-- INICIO MENU ADMINISTRADOR  -->
+				<li style="margin-top:-20px;">
+					<a class="collapsed" data-toggle="collapse" href="#togglePages">
+						<i class="menu-icon icon-bullhorn"></i>
+						<i class="icon-chevron-down pull-right"></i><i class="icon-chevron-up pull-right"></i>
+						Administrador
+					</a>
+					<ul id="togglePages" class="collapse unstyled">
+						<li>
+							<a href="{% url 'admin' %}">
+								<i class="icon-"></i>
+								Inicial Administrador
+							</a>
+						</li>
+						<li>
+							<a href="{% url 'prestadores' %}">
+								<i class="icon-inbox"></i>
+								Novos Prestadores
+							</a>
+						</li>
+						<li>
+							<a href="{% url 'contratantes' %}">
+								<i class="icon-inbox"></i>
+								Novos Contratantes
+							</a>
+						</li>
+						<li>
+							<a href="{% url 'relatorioAdm' %}">
+								<i class="icon-inbox"></i>
+								Relatórios Administrativos
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- FIM MENU ADMINISTRADOR  -->

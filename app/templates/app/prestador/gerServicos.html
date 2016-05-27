@@ -1,0 +1,149 @@
+﻿{% extends "app/geral/layout.html" %}
+ {% load staticfiles %}
+{% block content %}
+{% load humanize %}
+<div class="span3">
+{% include "app/geral/menu.html" %}
+</div>
+<div class="span9">
+    <div class="content">
+	<div class="module">
+            <div class="module-head">
+                <h3> Gerenciando os Serviços</h3>
+                
+            </div>
+        <br />
+        <div class="btn-group btn-group-justified span8" style="border:0px solid;display: block;align:center;" role="group">
+								  <a href="/heuristica_learning/" class="btn btn-success" role="group">	Todos </a>
+                	              <a href="/bons/" class="btn btn-info" role="group">	Agendados </a>	
+								  <a href="/ruins/" class="btn btn-warning" role="group">	Pendentes </a>
+                                  <a href="/bons/" class="btn btn-danger" role="group">	Cancelados </a>	
+								  <a href="/naoClassificado/" class="btn btn-primary btn" role="group">	Executados </a>		
+                                  <a href="/naoClassificado/" class="btn btn-default" role="group">	Avaliados </a>		
+								  
+				</div>
+            {% if msg %}
+                    {% include "app/geral/feedbackUser/msgSucesso.html" %}
+            {% endif %}
+
+            {% if servicosAA %}
+            <div class="module-body table">
+                 <table cellpadding="0" cellspacing="0" border="0" class="datatable-1 table table-bordered table-striped	 display"
+                    width="100%" style="table-layout: fixed;word-wrap:break-word;">
+                    <thead>
+                        <tr style="text-align:center;">
+                            <th> 
+                                Categoria / Subcategoria
+                            </th>   
+                            
+                            <th>
+                                Data
+                            </th>
+                            
+                            <th>
+                                Qt. Horas / Valor Total
+                            </th>
+
+                            <th style="width:40%;">
+                                Observações
+                            </th>
+                            <th style="width:10%;">
+                                Ações
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    
+                        {% for servicoAA in servicosAA %}
+                                
+                                    {% if servicoAA.Situacao == 'AA'%} 
+                                        <tr style="background: red;"> 
+                                    {% endif %}
+                                   
+                                   <td align="center">
+                                        {{ servicoAA.IdServico.IdCategoria.DescricaoCategoria }} - {{ servico.IdServico.IdSubCategoria.DescricaoSubCategoria }}
+                                    </td>
+                                 
+                                    <td>
+                                       {% if servicoAA.IdServico.IndicadorTipoServico = 1 %} 
+                                         Remunerado <br> <b> R$ {{ servicoAA.ValorHora | floatformat:2|intcomma }}/hora</b>
+                                       {% else %}
+                                        Voluntário
+                                       {% endif %}
+                                    </td>
+                                    
+                                    <td class="center">
+                                         {{ servicoAA.Situacao}}
+                                    </td>
+                                       
+                                    <td>
+
+                                         {{ servicoAA.DescricaoServico}}
+
+                                    </td>
+
+
+                                    <td class="center">
+                                    <!-- ALTERAR -->
+                                    <div style="float:left;display:inline-block;" >
+                                        <a class="editar" data-toggle="modal" title="Editar" data-item='{"IdServico": "{{servicoAA.IdServico}}","IdCategoria": "{{servicoAA.IdCategoria_id}}", "IdSubCategoria" : "{{servicoAA.IdSubCategoria_id}}", "IndicadorTipoServico": "{{ servicoAA.IndicadorTipoServico }}", "ValorHora": "{{servicoAA.ValorHora}}", "DescricaoServico" : "{{servicoAA.DescricaoServico}}"}'> 
+                                        <img src="{% static 'sistema/images/icons/editar.png'%}" width="25px"/>
+                                        </a>
+                                    </div>
+
+                                    <!-- EXCLUIR -->
+						            <a href="e_servico/?id={{servicoAA.IdServico}}" title="Excluir" style="margin-left: 10px;">
+                                        <img src="{% static 'sistema/images/icons/excluir.png'%}" width="25px" alt="Editar" />
+                                    </a>
+						            </td>
+                                    
+
+                                </tr>
+                      {% endfor %}
+                        </table>
+                        
+                    {% endif %}
+                        
+                    {% if not servicoAA %}    
+                        <h3> N&atilde;o existem serviços aguardando aprovação</h3>
+                    {% endif %}
+                <hr />
+			</div>
+		</div>
+        
+	</div><!--/.content-->
+</div><!--/.span9-->
+
+            <!-- Modal -->
+          <div class="modal fade" id="myModal" role="dialog" style="display: inline-block;">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">{{title}}</h4>
+                </div>
+                <div class="modal-body" >
+                 
+                     <form class="form-horizontal row-fluid" id="formServico" action="i_servico" method="POST">
+                    {% csrf_token %}
+    	             {% if frmServico %}
+				    	<div class="control-group" >
+						  <div class="controls" style="display: inline-block;margin-left:100px;">
+                                              {{ frmServico }}
+							</div>
+						</div>  
+                     {% else %}
+                        Erro ao carregar formulário.
+                     {% endif %}
+						
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="span1 btn btn-danger" data-dismiss="modal" style="float:right;margin-left:3;">Cancelar</button>			
+					            <button type="submit" class="span1 btn btn-primary" style="float:right;">Gravar</button>
+                    </form>      
+                </div>
+              </div>
+            </div>
+           </div>
+{% endblock %}         		                

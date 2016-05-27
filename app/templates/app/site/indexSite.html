@@ -1,0 +1,118 @@
+﻿{% extends "app/site/layoutSite.html" %}
+{% load staticfiles %}
+{% block content %}
+
+
+ <div class="container marketing">
+        <hr class="featurette-divider">
+        <div class="row featurette">
+            <div class="col-md-7">
+
+                <div style="border: 1px solid;">
+                {% if frmPesquisa %}
+                
+                   <form class="form-horizontal row-fluid" id="formPesquisa" action="pesquisa" method="POST">
+                     {{ frmPesquisa }}
+                       </form>
+                 {% else %}
+                    Erro ao carregar formulário de pesquisa.
+                {% endif %}
+                    </div>
+                <h2 class="featurette-heading"> A Colmeia </h2>
+                <p class="lead"> <p>Em  um mundo em que as pessoas utilizam crescentemente a Web para tarefas rotineiras, 
+                parece natural  que,  em  pouco  tempo,  prestadores  de  servi&ccedil;o  e  pessoas  necessitando  de  servi&ccedil;os  
+                espec&iacute;ficos busquem  maneiras  mais  &agrave;geis  e  pr&aacute;ticas  de  entrarem  em  contato.  Atualmente,  &eacute;  comum  
+                que  ambos  os lados gastem muito tempo nesta tarefa, ou realizando propaganda que &eacute; dif&iacute;cil de ser direcionada 
+                e atingir seu  p&uacute;blico  alvo,  ou  procurando  aleatoriamente  an&uacute;ncios  ou  recorrendo  a  indica&ccedil;&atilde;o  nem  sempre
+                  muito precisas de amigos e parentes.</p> 
+				  
+				  <div class="modal hide" id="contactModal"></div>
+				  <h2 class="featurette-heading"> Contrate algu&eacute;m ou seja um Prestador</h2>
+					<div class="col-md-5">
+                        <a href="#"> 
+					<img src="{% static 'sistema/images/anuncios/prestador.png'%}" width="100%" id="incluir" data-toggle="modal" data-target="#myModalIncluir">
+                        </a>
+					</div>
+                       
+					<div class="col-md-5" style="float: right;">
+                        
+                        <a href="#"> 
+						<img src="{% static 'sistema/images/anuncios/contratante.png'%}" width="100%" id="incluir" data-toggle="modal" data-target="#myModalCliente">
+                        </a>
+					</div>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+            </div>
+        </div> 
+     {% if msg %}
+      {{ msg }}
+    {% endif %}
+<!-- Modal Prestador-->
+<div class="modal fade" id="myModalIncluir" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4>Cadastro Prestador</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+           
+		        <form class="form-horizontal" action="i_prestador/?tipo=p" method="POST">
+                {% csrf_token %}
+    	            {% include "app/site/CadastroUsuarioP.html" %}
+                 </form>
+      </div>
+     
+    </div>
+  </div>
+</div>
+<!-- Modal Cliente-->
+<div class="modal fade" id="myModalCliente" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4>Cadastro Cliente</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+           
+		        <form class="form-horizontal" action="i_contratante/?tipo=c" method="POST">
+                {% csrf_token %}
+    	            {% include "app/site/CadastroUsuarioC.html" %}
+                 </form>
+      </div>
+     
+    </div>
+  </div>
+</div>
+     </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $("#id_CpfCnpj").keydown(function () {
+        try {
+            $("#id_CpfCnpj").unmask();
+        } catch (e) { }
+
+        var tamanho = $("#id_CpfCnpj").val().length;
+
+        if (tamanho < 15) {
+            $("#id_CpfCnpj").mask("999.999.999-99");
+        } else if (tamanho > 14) {
+            $("#id_CpfCnpj").mask("99.999.999/9999-99");
+        }
+    });
+
+    $('input[type=tel]').mask('(00)0000-00009');
+
+    $('input[type=tel]').blur(function(event) {
+        if ($(this).val().length == 14) {
+            $('input[type=tel]').mask('(00)00000-0009');
+        } else {
+            $('input[type=tel]').mask('(00)0000-00009');
+        }
+    }); 
+</script>
+{% endblock %}

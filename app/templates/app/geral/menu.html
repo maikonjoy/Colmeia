@@ -1,0 +1,30 @@
+﻿{% load staticfiles %}
+<!-- /navbar -->
+            <div class="sidebar">
+                <ul class="widget widget-menu unstyled">
+                    <li class="active" ><a href="{% url 'inicio' %}"><i class="menu-icon icon-dashboard"></i>Início </a></li>
+                <li><a href="{% url 'quemSomos' %}"><i class="menu-icon icon-tasks"></i>Quem somos</a></li>
+				
+                {% if user.usuario.IdPerfil_id == 1 %}
+                    {% include "app/geral/menuAdm.html" %}
+                {% endif %}
+			        
+                 {% if user.usuario.IdPerfil_id == 2 %}
+                    {% include "app/geral/menuPrest.html" %}
+                {% endif %}
+
+                 {% if user.usuario.IdPerfil_id == 3 %}
+                    {% include "app/geral/menuCont.html" %}
+                {% endif %}
+
+				<li>
+					<a href="{% url 'sair' %}">
+						<i class="menu-icon icon-signout"></i>
+						Sair
+					</a>
+				</li>
+
+                </ul> <!--/.widget-nav-->
+
+            </div>
+            <!--/.sidebar-->
