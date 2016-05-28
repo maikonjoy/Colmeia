@@ -60,9 +60,12 @@
     <Content Include="app\static\sistema\images\anuncios\purple.jpg" />
     <Content Include="app\static\sistema\images\anuncios\red.jpg" />
     <Content Include="app\static\sistema\images\bg.png" />
+    <Content Include="app\static\sistema\images\icons\execute.png" />
+    <Content Include="app\static\sistema\images\icons\ok.png" />
     <Content Include="app\static\sistema\images\icons\add.png" />
     <Content Include="app\static\sistema\images\icons\agenda.png" />
     <Content Include="app\static\sistema\images\icons\business139.png" />
+    <Content Include="app\static\sistema\images\icons\cancelar.png" />
     <Content Include="app\static\sistema\images\icons\certification.png" />
     <Content Include="app\static\sistema\images\icons\clock.png" />
     <Content Include="app\static\sistema\images\icons\css\font-awesome.css" />
@@ -76,6 +79,7 @@
     <Content Include="app\static\sistema\images\icons\prestadores.png" />
     <Content Include="app\static\sistema\images\icons\progress.png" />
     <Content Include="app\static\sistema\images\icons\scheme11.png" />
+    <Content Include="app\static\sistema\images\icons\searching-glass.png" />
     <Content Include="app\static\sistema\images\icons\servicesPrestados.png" />
     <Content Include="app\static\sistema\images\icons\servicos.png" />
     <Content Include="app\static\sistema\images\icons\servicosPrest2.png" />

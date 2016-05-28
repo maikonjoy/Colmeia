@@ -182,5 +182,5 @@ class ClienteServico(models.Model):
     
     @classmethod
     def create(self, objUsuario, objServico, DataServico, QtHoras, ValorHora, ValorTotal, Descricao):
-        objClienteServico = ClienteServico(IdUsuario = objUsuario, IdServico = objServico, DataServico = DataServico, QtHoras = QtHoras,ValorHora = ValorHora, ValorTotal = ValorTotal, Descricao = Descricao,  DataHoraConfirmacao = None, Situacao = u'AA', DataHoraSituacao = datetime.datetime.now(), Avaliacao = None, DataHoraInclusao = datetime.datetime.now(), DataHoraExclusao = None)
+        objClienteServico = ClienteServico(IdUsuario = objUsuario, IdServico = objServico, DataServico = DataServico, QtHoras = QtHoras,ValorHora = ValorHora, ValorTotal = ValorTotal, Descricao = Descricao,  DataHoraConfirmacao = None, Situacao = u'AP', DataHoraSituacao = datetime.datetime.now(), Avaliacao = None, DataHoraInclusao = datetime.datetime.now(), DataHoraExclusao = None)
         return objClienteServico

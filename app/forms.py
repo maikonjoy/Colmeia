@@ -207,23 +207,42 @@ class DisponibilidadeForm(forms.Form):
 class PesquisaForm(forms.Form):
      IdCategoria = forms.ModelChoiceField(queryset= Categoria.objects.all().order_by('DescricaoCategoria'),label= u'',  widget=forms.Select({
                                    'class': 'form-control',
-                                   'style': 'float:left;',
+                                   'style': 'float:left;margin-left: 20px;',
                                    'required' : 'required'
                                    }))
      IdSubCategoria = forms.ModelChoiceField(queryset= SubCategoria.objects.all().order_by('DescricaoSubCategoria'),label= u'',  widget=forms.Select({
                                    'class': 'form-control',
-                                   'style': 'float:left;margin-left: 30px;',
+                                   'style': 'float:left;margin-left: 20px;',
                                    'required' : 'required',
                                    'enabled' : 'false'
                                    }))
 
      PalavraChave = forms.CharField(label= u'',  widget=forms.TextInput({
                                    'class': 'form-control',
-                                   'style': 'float:left;margin-left: 30px;height: auto',
+                                   'style': 'float:left;margin-left: 20px;height: auto',
                                    'placeholder' : 'Palavra chave: Carteira B, Domicílio, etc.'
                                    }))
 
-SITUACAO = (('AA',u'Aguardando Aprovação'), ('AG',u'Aceito e Agendado'), ('CP',u'Cancelado pelo prestador'),('EX',u'Executado'),('AV',u'Avaliado'))
+class PesquisaFormSite(forms.Form):
+     IdCategoria = forms.ModelChoiceField(queryset= Categoria.objects.all().order_by('DescricaoCategoria'),label= u'',  widget=forms.Select({
+                                   'class': 'form-control',
+                                   'style': 'float:left;margin-left: 20px;',
+                                   'required' : 'required'
+                                   }))
+     IdSubCategoria = forms.ModelChoiceField(queryset= SubCategoria.objects.all().order_by('DescricaoSubCategoria'),label= u'',  widget=forms.Select({
+                                   'class': 'form-control',
+                                   'style': 'float:left;margin-left: 20px;',
+                                   'required' : 'required',
+                                   'enabled' : 'false'
+                                   }))
+
+     PalavraChave = forms.CharField(label= u'',  widget=forms.TextInput({
+                                   'class': 'form-control',
+                                   'style': 'float:left;margin-left: 20px;height: auto',
+                                   'placeholder' : 'Palavra chave: Carteira B, Domicílio, etc.'
+                                   }))
+
+SITUACAO = (('AP',u'Aprovação Pendente'), ('AG',u'Aceito e Agendado'), ('CP',u'Cancelado pelo prestador'),('CC',u'Cancelado pelo Cliente'),('EX',u'Executado'),('AV',u'Avaliado'))
 class ContrataServicoForm(forms.Form):
     DataServico = forms.DateTimeField(label=u'',widget=forms.DateTimeInput({
             'type' : 'date',

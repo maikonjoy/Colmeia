@@ -10,6 +10,7 @@ from django.shortcuts import render
 from django.db import connection
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
+import datetime
 
 def contrataServico(request):
     objUser = models.Usuario.objects.get(IdUsuario = request.user.id)
@@ -55,7 +56,7 @@ def recuperaServico(idObj):
 
 #recupera todos os objetos
 def recuperaServicosPorPrestador(id_user, s):
-    if (s == ''):
+    if (s != ''):
         objServicos = models.ClienteServico.objects.filter(IdUsuario_id = id_user,Situacao = s)
     else:
         objServicos = models.ClienteServico.objects.filter(IdUsuario_id = id_user)
@@ -66,4 +67,58 @@ def recuperaServicosPorPrestador(id_user, s):
 def recuperaServicosPorCliente(id_user):
     objServicos = models.ClienteServico.objects.filter(IdUsuario_id = id_user)
     return objServicos
+
+#MARCA O SERVIÇO COMO ACEITO
+def aceitarServico(request):
+    id = request.GET['id']
+    objClienteServico = models.ClienteServico.objects.get(IdClienteServico = id)
+    objClienteServico.DataHoraConfirmacao = datetime.datetime.now()
+    objClienteServico.Situacao = 'AG'
+    objClienteServico.DataHoraSituacao = datetime.datetime.now()
+    objClienteServico.save()
+    request.session['msg'] = 'Serviço confirmado com sucesso!'
+    return redirect('gerServicos')
+
+#CANCELA O SERVICO POR SOLICITACAO DO PRESTADOR
+def cancelarServicoP(request):
+    id = request.GET['id']
+    objClienteServico = models.ClienteServico.objects.get(IdClienteServico = id)
+    objClienteServico.Situacao = 'CP'
+    objClienteServico.DataHoraSituacao = datetime.datetime.now()
+    objClienteServico.save()
+    request.session['msg'] = 'Serviço cancelado com sucesso!'
+    return redirect('gerServicos')
+
+#MUDA O STATUS DO SERVIÇO PARA EXECUTADO
+def executarServico(request):
+    id = request.GET['id']
+    objClienteServico = models.ClienteServico.objects.get(IdClienteServico = id)
+    objClienteServico.Situacao = 'EX'
+    objClienteServico.Avaliacao = av
+    objClienteServico.DataHoraSituacao = datetime.datetime.now()
+    objClienteServico.save()
+    request.session['msg'] = 'Serviço marcado como EXECUTADO com sucesso!'
+    return redirect('gerServicos')
+
+#CANCELA O SERVICO POR SOLICITACAO DO CLIENTE
+def cancelarServicoC(request):
+    id = request.GET['id']
+    objClienteServico = models.ClienteServico.objects.get(IdClienteServico = id)
+    objClienteServico.Situacao = 'CC'
+    objClienteServico.DataHoraSituacao = datetime.datetime.now()
+    objClienteServico.save()
+    request.session['msg'] = 'Serviço cancelado com sucesso!'
+    return redirect('servContratados')
+
+#AVALIAÇÃO DO SERVICO PELO CLIENTE
+def avaliarServico(request):
+    id = request.GET['id']
+    av = request.GET['av']
+    objClienteServico = models.ClienteServico.objects.get(IdClienteServico = id)
+    objClienteServico.Situacao = 'AV'
+    objClienteServico.Avaliacao = av
+    objClienteServico.DataHoraSituacao = datetime.datetime.now()
+    objClienteServico.save()
+    request.session['msg'] = 'Serviço avaliado com sucesso!'
+    return redirect('servContratados')
 

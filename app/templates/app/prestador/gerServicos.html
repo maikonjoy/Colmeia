@@ -2,6 +2,54 @@
  {% load staticfiles %}
 {% block content %}
 {% load humanize %}
+<script src="{% static 'sistema/scripts/jquery-1.9.1.min.js' %}" type="text/javascript"></script>
+<script type="text/javascript">
+ 
+ $(document).ready(function () {
+
+     $('#vTodos').on('click', function () {
+         $('#AP').fadeIn('fast')
+         $('#CP').fadeIn('fast')
+         $('#EX').fadeIn('fast')
+         $('#AV').fadeIn('fast')
+         $('#AG').fadeIn('fast')
+     });
+
+     $('#vAgendados').on('click', function () {
+         $('#AP').fadeOut('fast')
+         $('#CP').fadeOut('fast')
+         $('#EX').fadeOut('fast')
+         $('#AV').fadeOut('fast')
+         $('#AG').fadeIn('fast')
+     });
+
+     $('#vPendentes').on('click', function () {
+         $('#AG').fadeOut('fast')
+         $('#CP').fadeOut('fast')
+         $('#EX').fadeOut('fast')
+         $('#AV').fadeOut('fast')
+         $('#AP').fadeIn('fast')
+     });
+
+     $('#vCancelados').on('click', function () {
+         $('#AG').fadeOut('fast')
+         $('#AP').fadeOut('fast')
+         $('#EX').fadeOut('fast')
+         $('#AV').fadeOut('fast')
+         $('#CP').fadeIn('fast')
+         $('#CC').fadeIn('fast')
+     });
+
+     $('#vAvaliados').on('click', function () {
+         $('#AG').fadeOut('fast')
+         $('#CP').fadeOut('fast')
+         $('#EX').fadeOut('fast')
+         $('#AA').fadeOut('fast')
+         $('#AV').fadeIn('fast')
+     });
+ });
+
+</script>
 <div class="span3">
 {% include "app/geral/menu.html" %}
 </div>
@@ -14,21 +62,23 @@
             </div>
         <br />
         <div class="btn-group btn-group-justified span8" style="border:0px solid;display: block;align:center;" role="group">
-								  <a href="/heuristica_learning/" class="btn btn-success" role="group">	Todos </a>
-                	              <a href="/bons/" class="btn btn-info" role="group">	Agendados </a>	
-								  <a href="/ruins/" class="btn btn-warning" role="group">	Pendentes </a>
-                                  <a href="/bons/" class="btn btn-danger" role="group">	Cancelados </a>	
-								  <a href="/naoClassificado/" class="btn btn-primary btn" role="group">	Executados </a>		
-                                  <a href="/naoClassificado/" class="btn btn-default" role="group">	Avaliados </a>		
-								  
+								
+              <button class="btn btn-success" role="group" id="vTodos">	Todos </button>
+                                  <button class="btn btn-warning" role="group" id="vPendentes">	Pendentes </button>
+                	              <button class="btn btn-info" role="group" id="vAgendados">	Agendados </button>	
+                                  <button class="btn btn-danger" role="group" id="vCancelados">	Cancelados </button>	
+								  <button class="btn btn-primary btn" role="group" id="vExecutados">Executados </button>		
+                                  <button class="btn btn-default" role="group" id="vAvaliados">	Avaliados </button>		
+				  			  
 				</div>
+             <hr> <br />	
             {% if msg %}
                     {% include "app/geral/feedbackUser/msgSucesso.html" %}
             {% endif %}
 
-            {% if servicosAA %}
+            {% if servicos %}
             <div class="module-body table">
-                 <table cellpadding="0" cellspacing="0" border="0" class="datatable-1 table table-bordered table-striped	 display"
+                 <table cellpadding="0" cellspacing="0" border="0" class="datatable-1 table table-bordered"
                     width="100%" style="table-layout: fixed;word-wrap:break-word;">
                     <thead>
                         <tr style="text-align:center;">
@@ -55,47 +105,70 @@
                     <tbody>
 
                     
-                        {% for servicoAA in servicosAA %}
+                        {% for servico in servicos %}
                                 
-                                    {% if servicoAA.Situacao == 'AA'%} 
-                                        <tr style="background: red;"> 
+                                    {% if servico.Situacao == "AP"%} 
+                                        <tr class="warning" id="AP"> 
                                     {% endif %}
-                                   
+                                       
+                                    {% if servico.Situacao == "AG"%} 
+                                        <tr class="info" id="AG"> 
+                                    {% endif %}
+                                    {% if servico.Situacao == "CP"%} 
+                                        <tr class="danger" id="CP"> 
+                                    {% endif %}
+                                    {% if servico.Situacao == "CC"%} 
+                                        <tr class="danger" id="CC"> 
+                                    {% endif %}
+                                    {% if servico.Situacao == "EX"%} 
+                                        <tr class="primary" id="EX"> 
+                                    {% endif %}
+                                    {% if servico.Situacao == "AV"%} 
+                                        <tr class="default" id="AV"> 
+                                    {% endif %}
+                
                                    <td align="center">
-                                        {{ servicoAA.IdServico.IdCategoria.DescricaoCategoria }} - {{ servico.IdServico.IdSubCategoria.DescricaoSubCategoria }}
+                                        {{ servico.IdServico.IdCategoria.DescricaoCategoria }} - {{ servico.IdServico.IdSubCategoria.DescricaoSubCategoria }}
                                     </td>
                                  
                                     <td>
-                                       {% if servicoAA.IdServico.IndicadorTipoServico = 1 %} 
-                                         Remunerado <br> <b> R$ {{ servicoAA.ValorHora | floatformat:2|intcomma }}/hora</b>
+                                       {% if servico.IdServico.IndicadorTipoServico = 1 %} 
+                                         Remunerado <br> <b> R$ {{ servico.ValorHora | floatformat:2|intcomma }}/hora</b>
                                        {% else %}
                                         Voluntário
                                        {% endif %}
                                     </td>
                                     
                                     <td class="center">
-                                         {{ servicoAA.Situacao}}
+                                         {{ servico.DataServico | date:"d/M/Y"}}
                                     </td>
                                        
                                     <td>
 
-                                         {{ servicoAA.DescricaoServico}}
+                                         {{ servico.Descricao}}
 
                                     </td>
 
 
                                     <td class="center">
-                                    <!-- ALTERAR -->
+                                    <!-- ACEITAR SERVICO -->
                                     <div style="float:left;display:inline-block;" >
-                                        <a class="editar" data-toggle="modal" title="Editar" data-item='{"IdServico": "{{servicoAA.IdServico}}","IdCategoria": "{{servicoAA.IdCategoria_id}}", "IdSubCategoria" : "{{servicoAA.IdSubCategoria_id}}", "IndicadorTipoServico": "{{ servicoAA.IndicadorTipoServico }}", "ValorHora": "{{servicoAA.ValorHora}}", "DescricaoServico" : "{{servicoAA.DescricaoServico}}"}'> 
-                                        <img src="{% static 'sistema/images/icons/editar.png'%}" width="25px"/>
+                                        
+                                        <a href="aceitarServico/?id={{servico.IdClienteServico}}" title="Aceitar" style="margin-left: 10px;">
+                                        <img src="{% static 'sistema/images/icons/ok.png'%}" width="25px"/>
                                         </a>
-                                    </div>
+                                        
 
-                                    <!-- EXCLUIR -->
-						            <a href="e_servico/?id={{servicoAA.IdServico}}" title="Excluir" style="margin-left: 10px;">
-                                        <img src="{% static 'sistema/images/icons/excluir.png'%}" width="25px" alt="Editar" />
+                                        
+                                        <a href="executarServico/?id={{servico.IdClienteServico}}" title="Serviço Executado" style="margin-left: 10px;">
+                                        <img src="{% static 'sistema/images/icons/execute.png'%}" width="25px"/>
+                                        </a>
+                                        
+                                    <!-- CANCELAR -->
+						            <a href="cancelarServicoP/?id={{servico.IdClienteServico}}" title="Cancelar" style="margin-left: 10px;">
+                                        <img src="{% static 'sistema/images/icons/cancelar.png'%}" width="25px" alt="Editar" />
                                     </a>
+                                         </div>
 						            </td>
                                     
 
@@ -105,7 +178,7 @@
                         
                     {% endif %}
                         
-                    {% if not servicoAA %}    
+                    {% if not servicos %}    
                         <h3> N&atilde;o existem serviços aguardando aprovação</h3>
                     {% endif %}
                 <hr />

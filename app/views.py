@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from datetime import datetime
-from .forms import UsuarioForm, UserForm, EnderecoForm, DiferencialForm, ServicoForm, DisponibilidadeForm, PesquisaForm,ContrataServicoForm
+from .forms import UsuarioForm, UserForm, EnderecoForm, DiferencialForm, ServicoForm, DisponibilidadeForm, PesquisaForm,PesquisaFormSite,ContrataServicoForm
 from Colmeia import p_usuario
 from Colmeia import p_servico, p_categoria, p_diferencial, p_disponibilidade, p_clienteServico
 
@@ -279,11 +279,7 @@ def gerServicos(request):
                 'title':'Colmeia | Gerenciador de Serviços',
                 'year':datetime.now().year,
                 'msg':msg,
-                'servicosAA' : p_clienteServico.recuperaServicosPorPrestador(request.user.id, 'AA') , 
-                'servicosAG' : p_clienteServico.recuperaServicosPorPrestador(request.user.id, 'AG') , 
-                'servicosCP' : p_clienteServico.recuperaServicosPorPrestador(request.user.id, 'CP') , 
-                'servicosEX' : p_clienteServico.recuperaServicosPorPrestador(request.user.id, 'EX') , 
-                'servicosAV' : p_clienteServico.recuperaServicosPorPrestador(request.user.id, 'AV') , 
+                'servicos' : p_clienteServico.recuperaServicosPorPrestador(request.user.id,''),
             })
     )
 

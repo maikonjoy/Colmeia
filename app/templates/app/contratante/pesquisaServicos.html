@@ -142,6 +142,13 @@
                     {% include "app/geral/feedbackUser/msgSucesso.html" %}
                 {% endif %}
                 
+                  {% if frmPesquisa %}
+                   <form class="form-horizontal row-fluid" id="formPesquisa" action="pesquisa" method="POST">
+                       {{ frmPesquisa }} 
+                    </form>
+                 {% else %}
+                    Erro ao carregar formulário de pesquisa.
+                {% endif %}
                 
                 <hr>
                 
