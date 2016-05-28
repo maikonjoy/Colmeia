@@ -164,6 +164,13 @@ class Servico(models.Model):
         objServico = Servico(IdCategoria = IdCategoria,IdSubCategoria = IdSubCategoria, IdUsuario = IdUsuario, IndicadorTipoServico = IndicadorTipoServico, DescricaoServico = DescricaoServico, ValorHora = ValorHora, DataHoraInclusao = datetime.datetime.now(), DataHoraExclusao = None )
         return objServico
 
+class SituacaoServico(models.Model):
+    IdSituacaoServico = models.CharField(max_length=2,primary_key = True)
+    Descricao = models.CharField(max_length = 150)
+    
+    def __unicode__(self):
+     return self.Descricao
+
 class ClienteServico(models.Model):
     IdClienteServico = models.AutoField(primary_key = True)
     IdUsuario = models.ForeignKey(Usuario)
@@ -174,13 +181,13 @@ class ClienteServico(models.Model):
     ValorTotal = models.DecimalField(max_digits=10, decimal_places=2)
     Descricao = models.CharField(max_length = 350)
     DataHoraConfirmacao = models.DateTimeField(null = True)
-    Situacao = models.CharField(max_length = 2)
+    IdSituacao = models.ForeignKey(SituacaoServico)
     Avaliacao = models.IntegerField(null = True)
     DataHoraSituacao = models.DateTimeField(null = True)
     DataHoraInclusao = models.DateTimeField(auto_now_add=True)
     DataHoraExclusao = models.DateTimeField(null = True)
     
     @classmethod
-    def create(self, objUsuario, objServico, DataServico, QtHoras, ValorHora, ValorTotal, Descricao):
-        objClienteServico = ClienteServico(IdUsuario = objUsuario, IdServico = objServico, DataServico = DataServico, QtHoras = QtHoras,ValorHora = ValorHora, ValorTotal = ValorTotal, Descricao = Descricao,  DataHoraConfirmacao = None, Situacao = u'AP', DataHoraSituacao = datetime.datetime.now(), Avaliacao = None, DataHoraInclusao = datetime.datetime.now(), DataHoraExclusao = None)
+    def create(self, objUsuario, objServico, DataServico, QtHoras, ValorHora, ValorTotal, Descricao, Situacao):
+        objClienteServico = ClienteServico(IdUsuario = objUsuario, IdServico = objServico, DataServico = DataServico, QtHoras = QtHoras,ValorHora = ValorHora, ValorTotal = ValorTotal, Descricao = Descricao,  DataHoraConfirmacao = None, IdSituacao = Situacao, DataHoraSituacao = datetime.datetime.now(), Avaliacao = None, DataHoraInclusao = datetime.datetime.now(), DataHoraExclusao = None)
         return objClienteServico

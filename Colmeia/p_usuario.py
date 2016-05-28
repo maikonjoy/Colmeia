@@ -110,13 +110,13 @@ def recuperaQtdPrestPendentes():
     cursor = connection.cursor()
     cursor.execute('SELECT COUNT(A.user_id) FROM app_usuario AS A JOIN auth_user AS B ON (A.user_id = B.id) WHERE (B.is_active = 0 AND A.IdPerfil_id = 2)')
     rows = cursor.fetchall()
-    return rows.length
+    return rows
 
 def recuperaQtdContPendentes():
     cursor = connection.cursor()
     cursor.execute('SELECT COUNT(A.user_id) FROM app_usuario AS A JOIN auth_user AS B ON (A.user_id = B.id) WHERE (B.is_active = 0 AND A.IdPerfil_id = 1)')
     rows = cursor.fetchall()
-    return rows.length
+    return rows
 
 def recuperaQtdContPendentes():
     return  models.User.filter(IdPerfil = '2').count()

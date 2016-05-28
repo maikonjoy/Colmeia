@@ -11,41 +11,43 @@ from django.db import connection
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 import datetime
+from django.db import connection
 
 def contrataServico(request):
     objUser = models.Usuario.objects.get(IdUsuario = request.user.id)
     objServico = models.Servico.objects.get(IdServico = request.GET['id'])
-    objClienteServico = models.ClienteServico.create(objUser, objServico, request.POST['DataServico'],request.POST['QtHoras'],request.POST['ValorHora'],request.POST['ValorTotal'],request.POST['Descricao'])
+    objSituacao = models.SituacaoServico.objects.get(IdSituacaoServico = 'AA')
+    objClienteServico = models.ClienteServico.create(objUser, objServico, request.POST['DataServico'],request.POST['QtHoras'],request.POST['ValorHora'],request.POST['ValorTotal'],request.POST['Descricao'],objSituacao)
 
     objClienteServico.save()
     request.session['msg'] = 'Serviço contratado com sucesso! Aguarde aprovação do prestador. '
-    return redirect('servicosOferecidos')
+    return redirect('servContratados')
     
-def alterar(request):
-    idObj = request.GET['id']
-    objServico = models.Servico.objects.get(IdServico=idObj)
-    objSubCategoria = models.SubCategoria.objects.get(IdSubCategoria = request.POST['IdSubCategoria'])
-    objCategoria = models.Categoria.objects.get(IdCategoria = objSubCategoria.IdCategoria_id)
-    objServico.IdCategoria = objCategoria
-    objServico.IdSubCategoria_id = objSubCategoria
-    objServico.ValorHora = request.POST['ValorHora']
-    objServico.IndicadorTipoServico = request.POST['IndicadorTipoServico']
-    objServico.DescricaoServico = request.POST['DescricaoServico']
+#def alterar(request):
+#    idObj = request.GET['id']
+#    objServico = models.Servico.objects.get(IdServico=idObj)
+#    objSubCategoria = models.SubCategoria.objects.get(IdSubCategoria = request.POST['IdSubCategoria'])
+#    objCategoria = models.Categoria.objects.get(IdCategoria = objSubCategoria.IdCategoria_id)
+#    objServico.IdCategoria = objCategoria
+#    objServico.IdSubCategoria_id = objSubCategoria
+#    objServico.ValorHora = request.POST['ValorHora']
+#    objServico.IndicadorTipoServico = request.POST['IndicadorTipoServico']
+#    objServico.DescricaoServico = request.POST['DescricaoServico']
 
-    objServico.save()
-    return redirect('SeD')
+#    objServico.save()
+#    return redirect('SeD')
 
 #exclui um objeto especifico pelo id e o retorna para confirmar a exclusao do objeto
 def excluir(request):
 	idObj = request.GET['id']
-	objExcluido = models.ClienteServico.objects.get(IdServico=idObj)
+	objExcluido = models.ClienteServico.objects.get(IdClienteServico=idObj)
 	objExcluido.delete()
 	return redirect('SeD')
 
 #recupera todos os objetos
 def recuperaServicos():
-    objServico = models.ClienteServico.objects.all()
-    return objServico
+    objClienteServico = models.ClienteServico.objects.all()
+    return objClienteServico
 
 #recupera todos um objeto especifico pelo id
 def recuperaServico(idObj):
@@ -55,12 +57,8 @@ def recuperaServico(idObj):
 #subCategoria, tipoServico, valorHora, descricao
 
 #recupera todos os objetos
-def recuperaServicosPorPrestador(id_user, s):
-    if (s != ''):
-        objServicos = models.ClienteServico.objects.filter(IdUsuario_id = id_user,Situacao = s)
-    else:
-        objServicos = models.ClienteServico.objects.filter(IdUsuario_id = id_user)
-    
+def recuperaServicosPorPrestador(id_user):
+    objServicos = models.ClienteServico.objects.filter(IdServico__IdUsuario_id = id_user)
     return objServicos
 
 #recupera todos os objetos
@@ -73,7 +71,8 @@ def aceitarServico(request):
     id = request.GET['id']
     objClienteServico = models.ClienteServico.objects.get(IdClienteServico = id)
     objClienteServico.DataHoraConfirmacao = datetime.datetime.now()
-    objClienteServico.Situacao = 'AG'
+    objSituacao = models.SituacaoServico.objects.get(IdSituacaoServico = 'AG')
+    objClienteServico.Situacao = objSituacao
     objClienteServico.DataHoraSituacao = datetime.datetime.now()
     objClienteServico.save()
     request.session['msg'] = 'Serviço confirmado com sucesso!'
@@ -83,7 +82,8 @@ def aceitarServico(request):
 def cancelarServicoP(request):
     id = request.GET['id']
     objClienteServico = models.ClienteServico.objects.get(IdClienteServico = id)
-    objClienteServico.Situacao = 'CP'
+    objSituacao = models.SituacaoServico.objects.get(IdSituacaoServico = 'CP')
+    objClienteServico.IdSituacao = objSituacao
     objClienteServico.DataHoraSituacao = datetime.datetime.now()
     objClienteServico.save()
     request.session['msg'] = 'Serviço cancelado com sucesso!'
@@ -93,7 +93,8 @@ def cancelarServicoP(request):
 def executarServico(request):
     id = request.GET['id']
     objClienteServico = models.ClienteServico.objects.get(IdClienteServico = id)
-    objClienteServico.Situacao = 'EX'
+    objSituacao = models.SituacaoServico.objects.get(IdSituacaoServico = 'EX')
+    objClienteServico.IdSituacao = objSituacao
     objClienteServico.Avaliacao = av
     objClienteServico.DataHoraSituacao = datetime.datetime.now()
     objClienteServico.save()
@@ -104,7 +105,8 @@ def executarServico(request):
 def cancelarServicoC(request):
     id = request.GET['id']
     objClienteServico = models.ClienteServico.objects.get(IdClienteServico = id)
-    objClienteServico.Situacao = 'CC'
+    objSituacao = models.SituacaoServico.objects.get(IdSituacaoServico = 'CC')
+    objClienteServico.IdSituacao = objSituacao
     objClienteServico.DataHoraSituacao = datetime.datetime.now()
     objClienteServico.save()
     request.session['msg'] = 'Serviço cancelado com sucesso!'
@@ -115,10 +117,21 @@ def avaliarServico(request):
     id = request.GET['id']
     av = request.GET['av']
     objClienteServico = models.ClienteServico.objects.get(IdClienteServico = id)
-    objClienteServico.Situacao = 'AV'
+    objSituacao = models.SituacaoServico.objects.get(IdSituacaoServico = 'AV')
+    objClienteServico.IdSituacao = objSituacao
     objClienteServico.Avaliacao = av
     objClienteServico.DataHoraSituacao = datetime.datetime.now()
     objClienteServico.save()
     request.session['msg'] = 'Serviço avaliado com sucesso!'
     return redirect('servContratados')
 
+def servicosMaisPopulares():
+    cursor = connection.cursor()
+    
+    cursor.execute('SELECT C.DescricaoCategoria, SUB.DescricaoSubCategoria, COUNT(CS.IdServico_id) AS Qt_Ocorrencias,(SELECT COUNT(*) FROM app_clienteservico AS QT) AS QT, ((COUNT(CS.IdServico_id)*1.0)/(SELECT COUNT(*) FROM app_clienteservico)*1.0)*100 AS Percentual FROM app_categoria AS C JOIN app_subcategoria AS SUB ON C.IdCategoria = SUB.IdCategoria_id JOIN app_servico AS S ON S.IdSubCategoria_id = SUB.IdSubCategoria JOIN app_clienteservico AS CS ON CS.IdServico_id = S.IdServico GROUP BY (SUB.DescricaoSubCategoria) ORDER BY COUNT(CS.IdServico_id) DESC LIMIT 10;')
+    rows = cursor.fetchall()
+    return rows
+
+def recuperaQuantidadeServicos():
+    servicos = models.ClienteServico.objects.all().count()
+    return servicos

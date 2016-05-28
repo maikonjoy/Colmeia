@@ -42,7 +42,6 @@ class UsuarioForm(forms.ModelForm):
             'Nome': forms.TextInput(attrs={'class': 'form-control',
                                             'placeholder': 'Nome',
                                             'style': 'margin-bottom: 10px;',
-                                            'pattern': '[A-Z][A-Za-z ]+',
                                             'required': 'true'}),
 
             'Telefone1': forms.TextInput(attrs={'class': 'form-control',
@@ -113,7 +112,6 @@ class EnderecoForm(ModelForm):
                                                     }),
             'Complemento': forms.TextInput(attrs={'class': 'form-control',
                                                     'placeholder': 'Complemento',
-                                                    'required': 'true',                    
                                                     'style': 'margin-bottom: 10px;'
                                                     })
             }
@@ -157,8 +155,7 @@ class DisponibilidadeUsuarioForm(forms.Form):
                                    'style': 'margin-bottom: 10px;',
                                    'required' : 'true'  
                                    }))
-     
-       
+          
 TIPO_SERVICO = (('1',u'Remunerada'), ('2',u'Voluntaria'))
 class ServicoForm(forms.Form):
     IdCategoria = forms.ModelChoiceField(queryset= Categoria.objects.all().order_by('DescricaoCategoria'),label= u'Categoria de Serviço',  widget=forms.Select({

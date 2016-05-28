@@ -61,7 +61,7 @@
                 
             </div>
         <br />
-        <div class="btn-group btn-group-justified span8" style="border:0px solid;display: block;align:center;" role="group">
+        <div class="btn-group btn-group-justified span9" style="border:0px solid;display: block;align:center;" role="group">
 								
               <button class="btn btn-success" role="group" id="vTodos">	Todos </button>
                                   <button class="btn btn-warning" role="group" id="vPendentes">	Pendentes </button>
@@ -93,8 +93,11 @@
                             <th>
                                 Qt. Horas / Valor Total
                             </th>
+                             <th>
+                                Cliente
+                            </th>
 
-                            <th style="width:40%;">
+                            <th>
                                 Observações
                             </th>
                             <th style="width:10%;">
@@ -104,47 +107,57 @@
                     </thead>
                     <tbody>
 
-                    
+                        
                         {% for servico in servicos %}
                                 
-                                    {% if servico.Situacao == "AP"%} 
-                                        <tr class="warning" id="AP"> 
-                                    {% endif %}
+                                    
+                                    <div>
+                                     <strong>Serviço:</strong>    {{ servico.IdServico.IdCategoria.DescricaoCategoria }}{{ servico.IdServico.IdSubCategoria.DescricaoSubCategoria }}
+                                    <strong>Situação:</strong>
+                                        {% if servico.Situacao == "AP"%} 
+                                            <span class="warning" id="AP"> Aguardando Aprovação </span>
+                                        {% endif %}
                                        
-                                    {% if servico.Situacao == "AG"%} 
-                                        <tr class="info" id="AG"> 
-                                    {% endif %}
-                                    {% if servico.Situacao == "CP"%} 
-                                        <tr class="danger" id="CP"> 
-                                    {% endif %}
-                                    {% if servico.Situacao == "CC"%} 
-                                        <tr class="danger" id="CC"> 
-                                    {% endif %}
-                                    {% if servico.Situacao == "EX"%} 
-                                        <tr class="primary" id="EX"> 
-                                    {% endif %}
-                                    {% if servico.Situacao == "AV"%} 
-                                        <tr class="default" id="AV"> 
-                                    {% endif %}
-                
+                                        {% if servico.Situacao == "AG"%} 
+                                            <span class="info" id="AG"> Aceito e Agendado </span>
+                                        {% endif %}
+                                        {% if servico.Situacao == "CP"%} 
+                                            <span class="danger" id="CP"> Cancelado pelo Prestador </span>
+                                        {% endif %}
+                                        {% if servico.Situacao == "CC"%} 
+                                            <span class="danger" id="CC"> Cancelado pelo Contratante </span>
+                                        {% endif %}
+                                        {% if servico.Situacao == "EX"%} 
+                                            <span class="primary" id="EX"> Executado </span>
+                                        {% endif %}
+                                        {% if servico.Situacao == "AV"%} 
+                                            <span class="default" id="AV"> Avaliado </span>
+                                        {% endif %}
+                                    </div>
                                    <td align="center">
                                         {{ servico.IdServico.IdCategoria.DescricaoCategoria }} - {{ servico.IdServico.IdSubCategoria.DescricaoSubCategoria }}
                                     </td>
                                  
                                     <td>
-                                       {% if servico.IdServico.IndicadorTipoServico = 1 %} 
-                                         Remunerado <br> <b> R$ {{ servico.ValorHora | floatformat:2|intcomma }}/hora</b>
+                                        {{ servico.DataServico | date:"d/M/Y"}}
+                                       
+                                    </td>
+                                    
+                                    <td class="center">
+                                         {% if servico.IdServico.IndicadorTipoServico = 1 %} 
+                                         {{ servico.QtHoras}} horas <br>  Hora: R$ {{ servico.ValorHora | floatformat:2|intcomma }}
+                                        <b>Total: R$ {{ servico.ValorTotal | floatformat:2|intcomma}}</>
                                        {% else %}
                                         Voluntário
                                        {% endif %}
                                     </td>
-                                    
-                                    <td class="center">
-                                         {{ servico.DataServico | date:"d/M/Y"}}
-                                    </td>
-                                       
                                     <td>
 
+                                         {{ servico.IdUsuario.Nome}}
+
+                                    </td>
+                                    <td>
+                                         {{ servico.IdUsuario.IdEndereco.Logradouro}}, {{ servico.IdUsuario.IdEndereco.Numero}} - Bairro: {{ servico.IdUsuario.IdEndereco.Bairro}} - Cidade/UF: {{ servico.IdUsuario.IdEndereco.Cidade}}/{{ servico.IdUsuario.IdEndereco.Estado}}      
                                          {{ servico.Descricao}}
 
                                     </td>

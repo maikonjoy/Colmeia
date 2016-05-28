@@ -1,29 +1,113 @@
 ﻿{% extends "app/site/layoutSite.html" %}
 {% load staticfiles %}
 {% block content %}
+{% load filtros %}
+<script src="{% static 'sistema/scripts/jquery-1.9.1.min.js' %}" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#id_IdSubCategoria').prop('disabled', true);
+        $('#id_IdCategoria').on('change', function () {
+            var categoriaID = $(this).val();
+            $.ajax({
+                url: 'subCategorias/',
+                type: 'POST',
+                data: { 'idCategoria' : categoriaID, 'csrfmiddlewaretoken': $("input[name = 'csrfmiddlewaretoken']").val()},
+                success: function (response) {
+                    result = JSON.parse(response);
+                    if (result) {
+                        $('#id_IdSubCategoria').empty()  // Use to empty the select
+                        $('#id_IdSubCategoria').append($('<option>', {
+                            value: '',
+                            text: '-- Escolha uma SubCategoria --'
+                        }));
 
+                        $.each(result, function () {
+                            $('#id_IdSubCategoria').append($('<option>', {
+                                value: this.pk,
+                                text: this.fields['DescricaoSubCategoria']
+                            }));
+                            $('#id_IdSubCategoria').prop('disabled',false);
+                        });
+                    } else {
+                        console.log('error');
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+
+            })
+        });
+            
+            $.ajax({
+                url: 'servicosPopulares/',
+                type: 'POST',
+                data: { 'idCategoria' : categoriaID, 'csrfmiddlewaretoken': $("input[name = 'csrfmiddlewaretoken']").val()},
+                success: function (response) {
+                    result = JSON.parse(response);
+                    if (result) {
+                        $('#id_IdSubCategoria').empty()  // Use to empty the select
+
+                        $('#id_IdSubCategoria').append($('<option>', {
+                            value: '',
+                            text: '-- Escolha uma SubCategoria --'
+                        }));
+
+                        $.each(result, function () {
+                            $('#id_IdSubCategoria').append($('<option>', {
+                                value: this.pk,
+                                text: this.fields['DescricaoSubCategoria']
+                            }));
+                            $('#id_IdSubCategoria').prop('disabled', false);
+                            $("select[name='IdSubCategoria']").val(objJSON.IdSubCategoria);
+                        });
+                    } else {
+                        console.log('error');
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+
+            });
+            console.log(objJSON.IndicadorTipoServico);
+            //populate the textbox		
+            $("select[name='IdCategoria']").val(objJSON.IdCategoria);
+            $("select[name='IdSubCategoria']").val(objJSON.IdSubCategoria);
+            $("select[name='IndicadorTipoServico']").val(objJSON.IndicadorTipoServico);
+            $("input[name='ValorHora']").val(objJSON.ValorHora);
+            $("textarea[name='DescricaoServico']").val(objJSON.DescricaoServico);
+
+            //Abre o modal
+            $("#myModal").modal();
+        });
+    
+
+   
+</script>
 
  <div class="container marketing">
         <hr class="featurette-divider">
         <div class="row featurette">
             <div class="col-md-12" style="border: 0px solid;">
 
-                <div class="form-control"style="border: 0px solid;display:inline;width:100%;">
-                <h2> Encontre um prestador </h2>
-                {% if frmPesquisa %}
+                    <h3> Encontre aqui o serviço que você precisa </h3>
+                    {% if frmPesquisa %}
                 
-                   <form class="form-horizontal row-fluid" id="formPesquisa" action="pesquisa" method="POST">
-                       
-                      <div style="width:20%;float: left;border: 0px solid;"> <span style="margin-left:0px;"> Categoria </span> {{ frmPesquisa.IdCategoria }} </div>
-                       <div style="width:30%;float: left;border: 0px solid;"><span style="margin-left:30px;"> Subcategoria </span>{{ frmPesquisa.IdSubCategoria }}</div>
-                       <div style="width: 30%;float: left;border: 0px solid;margin-left:20px;""><span style="margin-left:30px;"> Digite uma palavra chave</span>{{ frmPesquisa.PalavraChave }} </div>
-                    </form>
-                 {% else %}
-                    Erro ao carregar formulário de pesquisa.
-                {% endif %}
-                    </div>
+                
+                       <form class="form-horizontal row-fluid" id="formPesquisa" action="pesquisa" method="POST">
+                          <div style="width:20%;float: left;border: 0px solid;"> <span style="margin-left:20px;"> Categoria </span> {{ frmPesquisa.IdCategoria }} </div>
+                           <div style="width:30%;float: left;border: 0px solid;"><span style="margin-left:30px;"> Subcategoria </span>{{ frmPesquisa.IdSubCategoria }}</div>
+                           <div style="width: 30%;float: left;border: 0px solid;margin-left:20px;""><span style="margin-left:30px;"> Digite uma palavra chave</span>{{ frmPesquisa.PalavraChave }} </div>
+                        </form>
+                     {% else %}
+                        Erro ao carregar formulário de pesquisa.
+                    {% endif %}
+                
+                <br /><br /><br />
+                <hr>
                 <div class="col-md-7">
-                <h2 class="featurette-heading"> A Colmeia </h2>
+                <h3 class="featurette-heading"> A Colmeia </h3>
                 <p class="lead"> <p>Em  um mundo em que as pessoas utilizam crescentemente a Web para tarefas rotineiras, 
                 parece natural  que,  em  pouco  tempo,  prestadores  de  servi&ccedil;o  e  pessoas  necessitando  de  servi&ccedil;os  
                 espec&iacute;ficos busquem  maneiras  mais  &agrave;geis  e  pr&aacute;ticas  de  entrarem  em  contato.  Atualmente,  &eacute;  comum  
@@ -32,7 +116,7 @@
                   muito precisas de amigos e parentes.</p> 
 				  
 				  <div class="modal hide" id="contactModal"></div>
-				  <h2 class="featurette-heading"> Contrate algu&eacute;m ou seja um Prestador</h2>
+				  <h3 class="featurette-heading"> Contrate algu&eacute;m ou seja um Prestador</h3>
 					<div class="col-md-5">
                         <a href="#"> 
 					<img src="{% static 'sistema/images/anuncios/prestador.png'%}" width="100%" id="incluir" data-toggle="modal" data-target="#myModalIncluir">
@@ -47,51 +131,70 @@
 					</div>
             </div>
             <div class="col-md-5">
-                <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+                {% if servicosPopulares %}
+                     <p>    <strong> <h3> Serviços em destaque </h3></strong>      </p>
+
+                 
+                       {% for categoria, subcategoria, quantidade, qtTotal,perc in servicosPopulares %}
+                <strong>{{categoria}} - {{ subcategoria}}</strong> <span class="pull-right small muted">{{perc | replace}}%</span>
+                <div class="progress">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:{{perc | replace}}%">   {{perc | replace}}%               
+                            </div>
+                    </div>
+                 
+                        
+                              
+                            
+                        
+                          
+                    {% endfor %}
+
+                {% endif %}
             </div>
         </div> 
      {% if msg %}
       {{ msg }}
     {% endif %}
-<!-- Modal Prestador-->
-<div class="modal fade" id="myModalIncluir" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-          <h4>Cadastro Prestador</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="modal-body">
+        <!-- Modal Prestador-->
+        <div class="modal fade" id="myModalIncluir" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                  <h4>Cadastro Prestador</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
            
-		        <form class="form-horizontal" action="i_prestador/?tipo=p" method="POST">
-                {% csrf_token %}
-    	            {% include "app/site/CadastroUsuarioP.html" %}
-                 </form>
-      </div>
+		                <form class="form-horizontal" action="i_prestador/?tipo=p" method="POST">
+                        {% csrf_token %}
+    	                    {% include "app/site/CadastroUsuarioP.html" %}
+                         </form>
+              </div>
      
-    </div>
-  </div>
-</div>
+            </div>
+          </div>
+        </div>  <!-- FIM MODAL PRESTADOR  -->
+
 <!-- Modal Cliente-->
-<div class="modal fade" id="myModalCliente" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-          <h4>Cadastro Cliente</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="modal-body">
+        <div class="modal fade" id="myModalCliente" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                  <h4>Cadastro Cliente</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
            
-		        <form class="form-horizontal" action="i_contratante/?tipo=c" method="POST">
-                {% csrf_token %}
-    	            {% include "app/site/CadastroUsuarioC.html" %}
-                 </form>
-      </div>
-     
-    </div>
-  </div>
-</div>
-     </div>
+		                <form class="form-horizontal" action="i_contratante/?tipo=c" method="POST">
+                        {% csrf_token %}
+    	                    {% include "app/site/CadastroUsuarioC.html" %}
+                         </form>
+                </div>
+                        </div>
+                    </div>
+                </div> <!-- FIM MODAL CLIENTE -->
+            </div>
+        </div>
 {% endblock %}
 
 {% block scripts %}

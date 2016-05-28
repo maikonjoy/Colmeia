@@ -34,6 +34,8 @@ def index(request):
         {
             'title':'Colmeia | Início',
             'year':datetime.now().year,
+            'servicosPopulares': p_clienteServico.servicosMaisPopulares(),
+            'qtContratacoes': p_clienteServico.recuperaQuantidadeServicos(),
         })
     )
 
@@ -279,7 +281,7 @@ def gerServicos(request):
                 'title':'Colmeia | Gerenciador de Serviços',
                 'year':datetime.now().year,
                 'msg':msg,
-                'servicos' : p_clienteServico.recuperaServicosPorPrestador(request.user.id,''),
+                'servicos' : p_clienteServico.recuperaServicosPorPrestador(request.user.id),
             })
     )
 
@@ -356,6 +358,11 @@ def servContratados(request):
     if not request.user.is_authenticated():
         return HttpResponse('loginpage')
     else:
+        if request.session.has_key('msg'):
+            msg = request.session['msg']
+            del request.session['msg']
+        else:
+            msg = None
         return render(
             request,
             'app/contratante/servContratados.html',
@@ -363,6 +370,8 @@ def servContratados(request):
             {
                 'title':'Colmeia | Servicos Contratados',
                 'year':datetime.now().year,
+                'msg': msg,
+                'servicos' : p_clienteServico.recuperaServicosPorCliente(request.user.id),
             })
     )
 
