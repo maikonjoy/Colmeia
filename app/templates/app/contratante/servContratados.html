@@ -152,7 +152,7 @@
                 {% for servico in servicos %}
                     <div class="div{{servico.IdSituacao_id}} responsive" style="font-size:14;">
                         <strong style="font-size:16;">  Data {{ servico.DataServico | date:"d/M/Y"}} </strong>
-                                        
+                           <b>>             
                         <strong  style="margin-left:30px;">Área Serviço:</strong>    {{ servico.IdServico.IdCategoria.DescricaoCategoria }} / {{ servico.IdServico.IdSubCategoria.DescricaoSubCategoria }}
                                     
                                            
