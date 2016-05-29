@@ -72,7 +72,7 @@ def aceitarServico(request):
     objClienteServico = models.ClienteServico.objects.get(IdClienteServico = id)
     objClienteServico.DataHoraConfirmacao = datetime.datetime.now()
     objSituacao = models.SituacaoServico.objects.get(IdSituacaoServico = 'AG')
-    objClienteServico.Situacao_id = 'AG'
+    objClienteServico.IdSituacao_id = objSituacao
     objClienteServico.DataHoraSituacao = datetime.datetime.now()
     objClienteServico.save()
     request.session['msg'] = 'Serviço confirmado com sucesso!'
@@ -83,7 +83,7 @@ def cancelarServicoP(request):
     id = request.GET['id']
     objClienteServico = models.ClienteServico.objects.get(IdClienteServico = id)
     objSituacao = models.SituacaoServico.objects.get(IdSituacaoServico = 'CP')
-    objClienteServico.IdSituacao = objSituacao
+    objClienteServico.IdSituacao_id = objSituacao
     objClienteServico.DataHoraSituacao = datetime.datetime.now()
     objClienteServico.save()
     request.session['msg'] = 'Serviço cancelado com sucesso!'
@@ -94,8 +94,7 @@ def executarServico(request):
     id = request.GET['id']
     objClienteServico = models.ClienteServico.objects.get(IdClienteServico = id)
     objSituacao = models.SituacaoServico.objects.get(IdSituacaoServico = 'EX')
-    objClienteServico.IdSituacao = objSituacao
-    objClienteServico.Avaliacao = av
+    objClienteServico.IdSituacao_id = objSituacao
     objClienteServico.DataHoraSituacao = datetime.datetime.now()
     objClienteServico.save()
     request.session['msg'] = 'Serviço marcado como EXECUTADO com sucesso!'
@@ -105,8 +104,8 @@ def executarServico(request):
 def cancelarServicoC(request):
     id = request.GET['id']
     objClienteServico = models.ClienteServico.objects.get(IdClienteServico = id)
-    objSituacao = models.SituacaoServico.objects.get(IdSituacaoServico = 'CC')
-    objClienteServico.IdSituacao = objSituacao
+    objSituacao = models.SituacaoServico.objects.get(IdSituacaoServico = 'CC')  
+    objClienteServico.IdSituacao_id = objSituacao
     objClienteServico.DataHoraSituacao = datetime.datetime.now()
     objClienteServico.save()
     request.session['msg'] = 'Serviço cancelado com sucesso!'
@@ -118,7 +117,7 @@ def avaliarServico(request):
     av = request.GET['av']
     objClienteServico = models.ClienteServico.objects.get(IdClienteServico = id)
     objSituacao = models.SituacaoServico.objects.get(IdSituacaoServico = 'AV')
-    objClienteServico.IdSituacao = objSituacao
+    objClienteServico.IdSituacao_id = objSituacao
     objClienteServico.Avaliacao = av
     objClienteServico.DataHoraSituacao = datetime.datetime.now()
     objClienteServico.save()
@@ -128,7 +127,7 @@ def avaliarServico(request):
 def servicosMaisPopulares():
     cursor = connection.cursor()
     
-    cursor.execute('SELECT C.DescricaoCategoria, SUB.DescricaoSubCategoria, COUNT(CS.IdServico_id) AS Qt_Ocorrencias,(SELECT COUNT(*) FROM app_clienteservico AS QT) AS QT, ((COUNT(CS.IdServico_id)*1.0)/(SELECT COUNT(*) FROM app_clienteservico)*1.0)*100 AS Percentual FROM app_categoria AS C JOIN app_subcategoria AS SUB ON C.IdCategoria = SUB.IdCategoria_id JOIN app_servico AS S ON S.IdSubCategoria_id = SUB.IdSubCategoria JOIN app_clienteservico AS CS ON CS.IdServico_id = S.IdServico GROUP BY (SUB.DescricaoSubCategoria) ORDER BY COUNT(CS.IdServico_id) DESC LIMIT 10;')
+    cursor.execute('SELECT C.DescricaoCategoria, SUB.DescricaoSubCategoria, COUNT(CS.IdServico_id) AS Qt_Ocorrencias,(SELECT COUNT(*) FROM app_clienteservico AS QT) AS QT, ((COUNT(CS.IdServico_id)*1.0)/(SELECT COUNT(*) FROM app_clienteservico)*1.0)*100 AS Percentual FROM app_categoria AS C JOIN app_subcategoria AS SUB ON C.IdCategoria = SUB.IdCategoria_id JOIN app_servico AS S ON S.IdSubCategoria_id = SUB.IdSubCategoria JOIN app_clienteservico AS CS ON CS.IdServico_id = S.IdServico GROUP BY (SUB.DescricaoSubCategoria) ORDER BY COUNT(CS.IdServico_id) DESC LIMIT 6;')
     rows = cursor.fetchall()
     return rows
 

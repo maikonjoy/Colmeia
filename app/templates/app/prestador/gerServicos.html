@@ -12,7 +12,10 @@
     height: 20px;
     width: 20px;
     border: 1px solid #000000;
-    background-color: #FFFF00;
+    color: #ffffff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
+    
 }
     
     #AG {
@@ -23,21 +26,32 @@
     border: 1px solid #000000;
     background-color: #00ff21;
 }
-             #CP {
+    #CP {
     border-radius: 50%;
     display: inline-block;
     height: 20px;
     width: 20px;
-    border: 1px solid #000000;
-    background-color: #FFFF00;
+    color: #ffffff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
 }
-                #CC {
+    #CC {
     border-radius: 50%;
     display: inline-block;
     height: 20px;
     width: 20px;
-    border: 1px solid #000000;
-    background-color: #FFFF00;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+    #EX {
+    border-radius: 50%;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    color: #ffffff;
+    background-color: #428bca;
+    border-color: #357ebd;
 }
 
 </style>
@@ -144,7 +158,6 @@
                         </tr>
                     </thead>
                     <tbody>
-
                         
                         {% for servico in servicos %}
                                 
@@ -206,8 +219,6 @@
                                         <a href="aceitarServico/?id={{servico.IdClienteServico}}" title="Aceitar" style="margin-left: 10px;">
                                         <img src="{% static 'sistema/images/icons/ok.png'%}" width="25px"/>
                                         </a>
-                                        
-
                                         
                                         <a href="executarServico/?id={{servico.IdClienteServico}}" title="Serviço Executado" style="margin-left: 10px;">
                                         <img src="{% static 'sistema/images/icons/execute.png'%}" width="25px"/>

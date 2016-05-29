@@ -74,7 +74,7 @@ urlpatterns = patterns('',
 
     url(r'^contrataServico', p_clienteServico.contrataServico, name='contrataServico'),
     url(r'^aceitarServico', p_clienteServico.aceitarServico, name='aceitarServico'),
-    url(r'^executaServico', p_clienteServico.aceitarServico, name='aceitarServico'),
+    url(r'^executarServico', p_clienteServico.executarServico, name='aceitarServico'),
     url(r'^cancelarServicoP', p_clienteServico.cancelarServicoP, name='cancelarServicoP'),
     url(r'^cancelarServicoC', p_clienteServico.cancelarServicoC, name='cancelarServicoC'),
     
