@@ -124,6 +124,7 @@ def avaliarServico(request):
     request.session['msg'] = 'Serviço avaliado com sucesso!'
     return redirect('servContratados')
 
+#RECUPERA OS 6 SERVICOS MAIS POPULARES
 def servicosMaisPopulares():
     cursor = connection.cursor()
     

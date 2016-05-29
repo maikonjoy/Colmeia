@@ -163,6 +163,9 @@
     <Compile Include="Colmeia\p_usuario.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Colmeia\remoteLogin.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Colmeia\settings.py" />
     <Compile Include="Colmeia\urls.py" />
     <Compile Include="Colmeia\wsgi.py" />

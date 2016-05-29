@@ -10,7 +10,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.db import connection
 from django.shortcuts import redirect
-
+from Colmeia import remoteLogin
 from datetime import datetime
 from django.conf.urls import patterns, url
 from app.forms import BootstrapAuthenticationForm
@@ -24,6 +24,8 @@ from django.http import HttpRequest
 # admin.autodiscreques
 urlpatterns = patterns('',
     # Examples:
+    url(r'^remoteLogin', remoteLogin.basic_auth, name='remoteLogin'),
+
     url(r'^$', 'app.views.index', name='index'),
     url(r'^inicio', 'app.views.inicio', name='inicio'),
     url(r'^search', 'app.views.search', name='search'),
@@ -81,7 +83,7 @@ urlpatterns = patterns('',
     #Site Principal
     url(r'^s_contato', 'app.views.s_contato', name='s_contato'),
     url(r'^s_quemSomos', 'app.views.s_quemSomos', name='s_quemSomos'),
-
+    
     url(r'^sair', 'app.views.sair', name='sair'),
     url(r'^fazLogin', 'app.views.fazLogin', name='fazLogin'),
     

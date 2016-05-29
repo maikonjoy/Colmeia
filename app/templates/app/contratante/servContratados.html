@@ -3,53 +3,124 @@
 {% block content %}
 {% load humanize %}
 <script src="{% static 'sistema/scripts/jquery-1.9.1.min.js' %}" type="text/javascript"></script>
+<style>
+
+    #AP {
+    border-radius: 50%;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    border: 1px solid #000000;
+    color: #ffffff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
+    
+}
+    
+    #AG {
+    border-radius: 50%;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    border: 1px solid #000000;
+    color: #ffffff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+}
+    #CP {
+    border-radius: 50%;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    color: #ffffff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+    #CC {
+    border-radius: 50%;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+    #EX {
+    border-radius: 50%;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    color: #ffffff;
+    background-color: #428bca;
+    border-color: #357ebd;
+}
+    #AV {
+        border-radius: 50%;
+        display: inline-block;
+        height: 20px;
+        width: 20px;
+        color: #ffffff;
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+    }
+</style>
+
 <script type="text/javascript">
- 
  $(document).ready(function () {
 
      $('#vTodos').on('click', function () {
-         $('#AP').fadeIn('fast')
-         $('#CP').fadeIn('fast')
-         $('#EX').fadeIn('fast')
-         $('#AV').fadeIn('fast')
-         $('#AG').fadeIn('fast')
+         $('.divAP').fadeIn('fast')
+         $('.divCP').fadeIn('fast')
+         $('.divEX').fadeIn('fast')
+         $('.divAV').fadeIn('fast')
+         $('.divAG').fadeIn('fast')
      });
 
      $('#vAgendados').on('click', function () {
-         $('#AP').fadeOut('fast')
-         $('#CP').fadeOut('fast')
-         $('#EX').fadeOut('fast')
-         $('#AV').fadeOut('fast')
-         $('#AG').fadeIn('fast')
+         $('.divAG').fadeIn('fast')
+         $('.divAP').fadeOut('fast')
+         $('.divCP').fadeOut('fast')
+         $('.divEX').fadeOut('fast')
+         $('.divAV').fadeOut('fast')
+      
      });
 
      $('#vPendentes').on('click', function () {
-         $('#AG').fadeOut('fast')
-         $('#CP').fadeOut('fast')
-         $('#EX').fadeOut('fast')
-         $('#AV').fadeOut('fast')
-         $('#AP').fadeIn('fast')
+         $('.divAG').fadeOut('fast')
+         $('.divCP').fadeOut('fast')
+         $('.divEX').fadeOut('fast')
+         $('.divAV').fadeOut('fast')
+         $('.divAP').fadeIn('fast')
      });
 
      $('#vCancelados').on('click', function () {
-         $('#AG').fadeOut('fast')
-         $('#AP').fadeOut('fast')
-         $('#EX').fadeOut('fast')
-         $('#AV').fadeOut('fast')
-         $('#CP').fadeIn('fast')
-         $('#CC').fadeIn('fast')
+         $('.divAG').fadeOut('fast')
+         $('.divAP').fadeOut('fast')
+         $('.divEX').fadeOut('fast')
+         $('.divAV').fadeOut('fast')
+         $('.divCP').fadeIn('fast')
+         $('.divCC').fadeIn('fast')
      });
 
      $('#vAvaliados').on('click', function () {
-         $('#AG').fadeOut('fast')
-         $('#CP').fadeOut('fast')
-         $('#EX').fadeOut('fast')
-         $('#AA').fadeOut('fast')
-         $('#AV').fadeIn('fast')
+         $('.divAG').fadeOut('fast')
+         $('.divCP').fadeOut('fast')
+         $('.divEX').fadeOut('fast')
+         $('.divAA').fadeOut('fast')
+         $('.divAV').fadeIn('fast')
+     });
+
+     $('#vExecutados').on('click', function () {
+         $('.divAG').fadeOut('fast')
+         $('.divCP').fadeOut('fast')
+         $('.divAA').fadeOut('fast')
+         $('.divAV').fadeOut('fast')
+         $('.divEX').fadeIn('fast')
      });
  });
 
 </script>
+
 <div class="span3">
 {% include "app/geral/menu.html" %}
 </div>
@@ -61,14 +132,14 @@
                 
             </div>
         <br />
-        <div class="btn-group btn-group-justified span8" style="border:0px solid;display: block;align:center;" role="group">
+        <div class="btn-group btn-group-justified span9" style="border:0px solid;display: block;align:center;" role="group">
 								
-              <button class="btn btn-success" role="group" id="vTodos">	Todos </button>
-                                  <button class="btn btn-warning" role="group" id="vPendentes">	Pendentes </button>
-                	              <button class="btn btn-info" role="group" id="vAgendados">	Agendados </button>	
-                                  <button class="btn btn-danger" role="group" id="vCancelados">	Cancelados </button>	
-								  <button class="btn btn-primary btn" role="group" id="vExecutados">Executados </button>		
-                                  <button class="btn btn-default" role="group" id="vAvaliados">	Avaliados </button>		
+                    <button class="btn btn-default" role="group" id="vTodos">	Todos </button>
+                    <button class="btn btn-warning" role="group" id="vPendentes">	Pendentes </button>
+                	<button class="btn btn-info" role="group" id="vAgendados">	Agendados </button>	
+                    <button class="btn btn-danger" role="group" id="vCancelados">	Cancelados </button>	
+					<button class="btn btn-primary btn" role="group" id="vExecutados">Executados </button>
+                    <button class="btn btn-success" role="group" id="vAvaliados">	Avaliados </button>		
 				  			  
 				</div>
              <hr> <br />	
@@ -77,88 +148,40 @@
             {% endif %}
 
             {% if servicos %}
-            <div class="module-body table">
-                 <table cellpadding="0" cellspacing="0" border="0" class="datatable-1 table table-bordered"
-                    width="100%" style="table-layout: fixed;word-wrap:break-word;">
-                    <thead>
-                        <tr style="text-align:center;">
-                            <th> 
-                                Categoria / Subcategoria
-                            </th>   
-                            
-                            <th>
-                                Data
-                            </th>
-                            
-                            <th>
-                                Qt. Horas / Valor Total
-                            </th>
-
-                            <th style="width:40%;">
-                                Observações
-                            </th>
-                            <th style="width:10%;">
-                                Ações
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    
-                        {% for servico in servicos %}
-                                
-                                    {% if servico.Situacao == "AP"%} 
-                                        <tr class="warning" id="AP"> 
-                                    {% endif %}
-                                       
-                                    {% if servico.Situacao == "AG"%} 
-                                        <tr class="info" id="AG"> 
-                                    {% endif %}
-                                    {% if servico.Situacao == "CP"%} 
-                                        <tr class="danger" id="CP"> 
-                                    {% endif %}
-                                    {% if servico.Situacao == "CC"%} 
-                                        <tr class="danger" id="CC"> 
-                                    {% endif %}
-                                    {% if servico.Situacao == "EX"%} 
-                                        <tr class="primary" id="EX"> 
-                                    {% endif %}
-                                    {% if servico.Situacao == "AV"%} 
-                                        <tr class="default" id="AV"> 
-                                    {% endif %}
-                
-                                   <td align="center">
-                                        {{ servico.IdServico.IdCategoria.DescricaoCategoria }} - {{ servico.IdServico.IdSubCategoria.DescricaoSubCategoria }}
-                                    </td>
-                                 
-                                    <td>
-                                       {% if servico.IdServico.IndicadorTipoServico = 1 %} 
-                                         Remunerado <br> <b> R$ {{ servico.ValorHora | floatformat:2|intcomma }}/hora</b>
-                                       {% else %}
-                                        Voluntário
-                                       {% endif %}
-                                    </td>
+            <div class="module-body">
+                {% for servico in servicos %}
+                    <div class="div{{servico.IdSituacao_id}} responsive" style="font-size:14;">
+                        <strong style="font-size:16;">  Data {{ servico.DataServico | date:"d/M/Y"}} </strong>
+                                        
+                        <strong  style="margin-left:30px;">Área Serviço:</strong>    {{ servico.IdServico.IdCategoria.DescricaoCategoria }} / {{ servico.IdServico.IdSubCategoria.DescricaoSubCategoria }}
                                     
-                                    <td class="center">
-                                         {{ servico.DataServico | date:"d/M/Y"}}
-                                    </td>
-                                       
-                                    <td>
-                                         {{ servico.Descricao}}
-                                    </td>
-
-                                    <td class="center">
-                                        <!-- CANCELAR -->
-						                <a href="cancelarServicoP/?id={{servico.IdClienteServico}}" title="Cancelar" style="margin-left: 10px;">
-                                            <img src="{% static 'sistema/images/icons/cancelar.png'%}" width="25px" alt="Editar" />
-                                        </a>
-                                       
-						            </td>
-                                    
-
-                                </tr>
-                      {% endfor %}
-                        </table>
+                                           
+                        <strong style="margin-left:30px;">Situação:</strong>
+                            <span id="{{servico.IdSituacao_id}}"> </span>  {{servico.IdSituacao.Descricao}} (em {{ servico.DataHoraSituacao | date:"d/M/Y"}})
+                        <br />
+                        <strong>  Horas Contratadas: </strong>  {{ servico.QtHoras}} horas  X  {{ servico.ValorHora | floatformat:2|intcomma }}
+                        <strong style="margin-left:30px;">  Valor total: </strong>  {{ servico.ValorTotal | floatformat:2|intcomma }} 
+                        <br /><p></p>
+                        <strong style="margin-left:30px;">  Nome Prestador: </strong>  {{ servico.IdServico.IdUsuario.Nome }} 
+                        <br />
+                        <strong style="margin-left:30px;">  Tel. Principal: </strong> {{servico.IdServico.IdUsuario.Telefone1 }}
+                        <strong style="margin-left:30px;">  Tel. Auxiliar: </strong> {{servico.IdServico.IdUsuario.Telefone2 }}
+                        <strong style="margin-left:30px;">  Email: </strong> {{servico.IdServico.IdUsuario.Email }}
+                        <br />
+                        <strong style="margin-left:30px;">  Endereço: </strong>{{ servico.IdServico.IdUsuario.IdEndereco.Logradouro}}, {{ servico.IdServico.IdUsuario.IdEndereco.Numero}} - Bairro: {{ servico.IdServico.IdUsuario.IdEndereco.Bairro}} - Cidade: {{ servico.IdServico.IdUsuario.IdEndereco.Cidade}} - UF: {{ servico.IdServico.IdUsuario.IdEndereco.Estado}} -        CEP: {{ servico.IdServico.IdUsuario.IdEndereco.CEP}}
+                            <p><p><strong style="margin-left:30px;">  Descrição: </strong> {{ servico.Descricao}}
+                             
+                            <!-- ACEITAR SERVICO -->
+                            <div style="float:right;display:block;" >
+                                        
+                                <!-- CANCELAR -->
+						        <a href="cancelarServicoP/?id={{servico.IdClienteServico}}" title="Cancelar" style="margin-left: 10px;"><img src="{% static 'sistema/images/icons/cancelar.png'%}" width="25px" alt="Editar" /></a>
+                            </div>
+                    <br />
+                        <hr />
+                    </div>
+                      
+                {% endfor %}
                   </div>
                         
                     {% endif %}
