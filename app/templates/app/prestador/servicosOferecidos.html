@@ -117,7 +117,7 @@
                 $("select[name='IdCategoria']").val(objJSON.IdCategoria);
                 $("select[name='IdSubCategoria']").val(objJSON.IdSubCategoria);
                 $("select[name='IndicadorTipoServico']").val(objJSON.IndicadorTipoServico);
-                $("input[name='ValorHora']").val(objJSON.ValorHora);
+                $("input[name='ValorHora']").val(objJSON.ValorHora.replace(',','.'));
                 $("textarea[name='DescricaoServico']").val(objJSON.DescricaoServico);
 
                 //Abre o modal

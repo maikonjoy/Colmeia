@@ -211,7 +211,6 @@ class PesquisaForm(forms.Form):
                                    'class': 'form-control',
                                    'style': 'float:left;margin-left: 20px;',
                                    'required' : 'required',
-                                   'enabled' : 'false'
                                    }))
 
      PalavraChave = forms.CharField(label= u'',  widget=forms.TextInput({

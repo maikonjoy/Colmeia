@@ -11,7 +11,7 @@ ESTADOS =  (('AC', u'Acre'), ('AL', u'Alagoas'), ('AP',u'Amapa'), ('AM',u'Amazon
 
 TIPO_SERVICO = (('1',u'Remunerada'), ('2',u'Voluntaria'))
 
-#Classes
+#CLASSES DE PERFIL DE USUÁRIO
 class Perfil(models.Model):
     IdPerfil = models.AutoField(primary_key = True)
     DescricaoPerfil = models.CharField(max_length = 50, null = False)
@@ -68,6 +68,7 @@ class Usuario(models.Model):
         objUsuario = Usuario(user_id = user.id ,IdEndereco = IdEndereco, IdPerfil = IdPerfil ,IndicadorTipoPessoa = IndicadorTipoPessoa,CpfCnpj = CpfCnpj,Nome= Nome,Telefone1 = Telefone1,Telefone2 = Telefone2, Email = Email, Senha = Senha, DataHoraAprovacao = None, DataHoraInclusao = datetime.datetime.now(), DataHoraExclusao = None)
         return objUsuario
 
+#CLASSES DOS DIFERENCIAIS DO PRESTADOR
 class TipoDiferencial(models.Model):
     IdTipoDiferencial = models.AutoField(primary_key = True)
     DescricaoTipoDiferencial = models.CharField(max_length = 100, verbose_name='Descrição')
@@ -122,7 +123,7 @@ class DisponibilidadeUsuario(models.Model):
         objDisponibilidadeUsuario = DisponibilidadeUsuario(idUsuario = IdUsuario, idDiaSemana = IdDiaSemana,idHorarioInicio = IdHorarioInicio,idHorarioFim = IdHorarioFim,DataHoraInclusao = datetime.datetime.now(), DataHoraExclusao = None)
         return objDisponibilidadeUsuario
     
-#CLASSES DOS SERVICOS EXECUTADOS. 
+#CLASSES DOS SERVICOS OFERECIDOS. 
 class Categoria(models.Model):
     IdCategoria = models.AutoField(primary_key = True)
     DescricaoCategoria = models.CharField(max_length = 250)
@@ -164,6 +165,7 @@ class Servico(models.Model):
         objServico = Servico(IdCategoria = IdCategoria,IdSubCategoria = IdSubCategoria, IdUsuario = IdUsuario, IndicadorTipoServico = IndicadorTipoServico, DescricaoServico = DescricaoServico, ValorHora = ValorHora, DataHoraInclusao = datetime.datetime.now(), DataHoraExclusao = None )
         return objServico
 
+#CLASSES DOS SERVICOS CONTRATADOS. 
 class SituacaoServico(models.Model):
     IdSituacaoServico = models.CharField(max_length=2,primary_key = True)
     Descricao = models.CharField(max_length = 150)

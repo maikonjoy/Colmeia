@@ -16,7 +16,7 @@ from django.db import connection
 def contrataServico(request):
     objUser = models.Usuario.objects.get(IdUsuario = request.user.id)
     objServico = models.Servico.objects.get(IdServico = request.GET['id'])
-    objSituacao = models.SituacaoServico.objects.get(IdSituacaoServico = 'AA')
+    objSituacao = models.SituacaoServico.objects.get(IdSituacaoServico = 'AP')
     objClienteServico = models.ClienteServico.create(objUser, objServico, request.POST['DataServico'],request.POST['QtHoras'],request.POST['ValorHora'],request.POST['ValorTotal'],request.POST['Descricao'],objSituacao)
 
     objClienteServico.save()
@@ -72,7 +72,7 @@ def aceitarServico(request):
     objClienteServico = models.ClienteServico.objects.get(IdClienteServico = id)
     objClienteServico.DataHoraConfirmacao = datetime.datetime.now()
     objSituacao = models.SituacaoServico.objects.get(IdSituacaoServico = 'AG')
-    objClienteServico.Situacao = objSituacao
+    objClienteServico.Situacao_id = 'AG'
     objClienteServico.DataHoraSituacao = datetime.datetime.now()
     objClienteServico.save()
     request.session['msg'] = 'Serviço confirmado com sucesso!'

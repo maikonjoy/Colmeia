@@ -1,5 +1,5 @@
 ﻿{% extends "app/geral/layout.html" %}
-
+{% load staticfiles %}
 {% block content %}
 <div class="span3">
 {% include "app/geral/menu.html" %}
@@ -56,7 +56,7 @@
                                         {{ Perfil }}
                                     </td>
                                     <td class="center">
-                                        <a href="aprova_usuariosP/?id={{id}}" class="glyphicon glyphicon-fullscreen"> Aprovar</a>
+                                        <a href="aprova_usuariosP/?id={{id}}" class="glyphicon glyphicon-fullscreen"> <img src="{% static 'sistema/images/icons/ok.png'%}" width="25px"/></a>
                                     </td>
                                 </tr>
                         {% endfor %}
