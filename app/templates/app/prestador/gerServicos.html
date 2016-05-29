@@ -70,53 +70,53 @@
  $(document).ready(function () {
 
      $('#vTodos').on('click', function () {
-         $('.divAP').fadeIn('fast')
-         $('.divCP').fadeIn('fast')
-         $('.divEX').fadeIn('fast')
-         $('.divAV').fadeIn('fast')
-         $('.divAG').fadeIn('fast')
+         $('.divAP').fadeIn('fast');
+         $('.divCP').fadeIn('fast');
+         $('.divEX').fadeIn('fast');
+         $('.divAV').fadeIn('fast');
+         $('.divAG').fadeIn('fast');
      });
 
      $('#vAgendados').on('click', function () {
-         $('.divAG').fadeIn('fast')
-         $('.divAP').fadeOut('fast')
-         $('.divCP').fadeOut('fast')
-         $('.divEX').fadeOut('fast')
-         $('.divAV').fadeOut('fast')
+         $('.divAP').fadeOut('fast');
+         $('.divCP').fadeOut('fast');
+         $('.divEX').fadeOut('fast');
+         $('.divAV').fadeOut('fast');
+         $('.divAG').fadeIn('fast');
       
      });
 
      $('#vPendentes').on('click', function () {
-         $('.divAG').fadeOut('fast')
-         $('.divCP').fadeOut('fast')
-         $('.divEX').fadeOut('fast')
-         $('.divAV').fadeOut('fast')
-         $('.divAP').fadeIn('fast')
+         $('.divAG').fadeOut('fast');
+         $('.divCP').fadeOut('fast');
+         $('.divEX').fadeOut('fast');
+         $('.divAV').fadeOut('fast');
+         $('.divAP').fadeIn('fast');
      });
 
      $('#vCancelados').on('click', function () {
-         $('.divAG').fadeOut('fast')
-         $('.divAP').fadeOut('fast')
-         $('.divEX').fadeOut('fast')
-         $('.divAV').fadeOut('fast')
-         $('.divCP').fadeIn('fast')
-         $('.divCC').fadeIn('fast')
+         $('.divAG').fadeOut('fast');
+         $('.divAP').fadeOut('fast');
+         $('.divEX').fadeOut('fast');
+         $('.divAV').fadeOut('fast');
+         $('.divCP').fadeIn('fast');
+         $('.divCC').fadeIn('fast');
      });
 
      $('#vAvaliados').on('click', function () {
-         $('.divAG').fadeOut('fast')
-         $('.divCP').fadeOut('fast')
-         $('.divEX').fadeOut('fast')
-         $('.divAA').fadeOut('fast')
-         $('.divAV').fadeIn('fast')
+         $('.divAG').fadeOut('fast');
+         $('.divCP').fadeOut('fast');
+         $('.divEX').fadeOut('fast');
+         $('.divAA').fadeOut('fast');
+         $('.divAV').fadeIn('fast');
      });
 
      $('#vExecutados').on('click', function () {
-         $('.divAG').fadeOut('fast')
-         $('.divCP').fadeOut('fast')
-         $('.divAA').fadeOut('fast')
-         $('.divAV').fadeOut('fast')
-         $('.divEX').fadeIn('fast')
+         $('.divAG').fadeOut('fast');
+         $('.divCP').fadeOut('fast');
+         $('.divAA').fadeOut('fast');
+         $('.divAV').fadeOut('fast');
+         $('.divEX').fadeIn('fast');
      });
  });
 
@@ -150,17 +150,17 @@
             <div class="module-body">
                                         
                 {% for servico in servicos %}
-                    <div class="div{{servico.IdSituacao_id}} responsive" style="font-size:14;">
-                        <strong>  Data</strong> {{ servico.DataServico | date:"d/M/Y"}} 
-                                        
+                    <div class="div{{servico.IdSituacao_id}} responsive" style="font-size:12;">
+                        <strong style="font-size: 16;">  Data: {{ servico.DataServico | date:"d/M/Y"}} </strong>
+                        <br/>             
                         <strong  style="margin-left:30px;">Área Serviço:</strong>    {{ servico.IdServico.IdCategoria.DescricaoCategoria }} / {{ servico.IdServico.IdSubCategoria.DescricaoSubCategoria }}
                                     
                                            
                         <strong style="margin-left:30px;">Situação:</strong>
                             <span id="{{servico.IdSituacao_id}}"> </span>  {{servico.IdSituacao.Descricao}} (em {{ servico.DataHoraSituacao | date:"d/M/Y"}})
                         <br />
-                        <strong>  Horas Contratadas: </strong>  {{ servico.QtHoras}} horas  X  {{ servico.ValorHora | floatformat:2|intcomma }}
-                        <strong style="margin-left:30px;">  Valor total: </strong>  {{ servico.ValorTotal | floatformat:2|intcomma }} 
+                        <strong style="margin-left:30px;">  Horas Contratadas: </strong>  {{ servico.QtHoras}} horas  X  R$ {{ servico.ValorHora | floatformat:2|intcomma }}
+                        <strong style="margin-left:30px;">  Valor total: </strong> R$ {{ servico.ValorTotal | floatformat:2|intcomma }} 
                         <br /><p></p>
                         <strong style="margin-left:30px;">  Nome Cliente: </strong>  {{ servico.IdUsuario.Nome }} 
                         <br />
@@ -172,7 +172,7 @@
                             <p><p><strong style="margin-left:30px;">  Descrição: </strong> {{ servico.Descricao}}
                              
                             <!-- ACEITAR SERVICO -->
-                            <div style="float:right;display:block;" >
+                            <div style="float:right;display:inline-block;" >
                                         
                                 <a href="aceitarServico/?id={{servico.IdClienteServico}}" title="Aceitar" style="margin-left: 10px;"><img src="{% static 'sistema/images/icons/ok.png'%}" width="25px"/></a>
                                         
@@ -181,8 +181,8 @@
                                 <!-- CANCELAR -->
 						        <a href="cancelarServicoP/?id={{servico.IdClienteServico}}" title="Cancelar" style="margin-left: 10px;"><img src="{% static 'sistema/images/icons/cancelar.png'%}" width="25px" alt="Editar" /></a>
                             </div>
-                    <br />
-                        <hr />
+                        <br />
+                        <hr/>
                     </div>
                       
                 {% endfor %}

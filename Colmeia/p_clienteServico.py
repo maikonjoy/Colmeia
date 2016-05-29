@@ -46,8 +46,11 @@ def excluir(request):
 
 #recupera todos os objetos
 def recuperaServicos():
-    objClienteServico = models.ClienteServico.objects.all()
+    objClienteServico = models.ClienteServico.objects.filter(IdServico__IdUsuario_id != id_user)
     return objClienteServico
+
+
+    
 
 #recupera todos um objeto especifico pelo id
 def recuperaServico(idObj):
@@ -128,7 +131,7 @@ def avaliarServico(request):
 def servicosMaisPopulares():
     cursor = connection.cursor()
     
-    cursor.execute('SELECT C.DescricaoCategoria, SUB.DescricaoSubCategoria, COUNT(CS.IdServico_id) AS Qt_Ocorrencias,(SELECT COUNT(*) FROM app_clienteservico AS QT) AS QT, ((COUNT(CS.IdServico_id)*1.0)/(SELECT COUNT(*) FROM app_clienteservico)*1.0)*100 AS Percentual FROM app_categoria AS C JOIN app_subcategoria AS SUB ON C.IdCategoria = SUB.IdCategoria_id JOIN app_servico AS S ON S.IdSubCategoria_id = SUB.IdSubCategoria JOIN app_clienteservico AS CS ON CS.IdServico_id = S.IdServico GROUP BY (SUB.DescricaoSubCategoria) ORDER BY COUNT(CS.IdServico_id) DESC LIMIT 6;')
+    cursor.execute('SELECT C.DescricaoCategoria, SUB.DescricaoSubCategoria, COUNT(CS.IdServico_id) AS Qt_Ocorrencias,(SELECT COUNT(*) FROM app_clienteservico AS QT) AS QT, ((COUNT(CS.IdServico_id)*1.0)/(SELECT COUNT(*) FROM app_clienteservico)*1.0)*100 AS Percentual FROM app_categoria AS C JOIN app_subcategoria AS SUB ON C.IdCategoria = SUB.IdCategoria_id JOIN app_servico AS S ON S.IdSubCategoria_id = SUB.IdSubCategoria JOIN app_clienteservico AS CS ON CS.IdServico_id = S.IdServico GROUP BY (SUB.DescricaoSubCategoria) ORDER BY COUNT(CS.IdServico_id) DESC LIMIT 7;')
     rows = cursor.fetchall()
     return rows
 

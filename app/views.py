@@ -346,7 +346,8 @@ def pesquisaServicos(request):
                 'title':'Colmeia | Contratante',
                 'year':datetime.now().year,
                 'msg': msg,
-                'servicos': p_servico.recuperaServicos(),
+                'servicos': p_servico.recuperaServicosParaOContratante(request.user.id),
+                'distancias': p_servico.obterDistancias(),
                 'frmPesquisa': frmPesquisa,
                 'frmContratar' : frmContratar,
             })

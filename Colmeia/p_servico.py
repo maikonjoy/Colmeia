@@ -10,6 +10,8 @@ from django.shortcuts import render
 from django.db import connection
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
+import urllib
+import json
 
 def incluir(request):
     objSubCategoria = models.SubCategoria.objects.get(IdSubCategoria = request.POST['IdSubCategoria'])
@@ -45,9 +47,20 @@ def excluir(request):
 	return redirect('servicosOferecidos')
 
 #recupera todos os objetos
-def recuperaServicos():
-    objServico = models.Servico.objects.all()
+def recuperaServicosParaOContratante(id_user):
+    objServico = models.Servico.objects.exclude(IdUsuario_id = id_user)
     return objServico
+
+def obterDistancias():
+    url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins={0}&destinations={1}&mode=driving&language=en-EN&sensor=false".format(str('Rua Expedicionarios 416, Lagoa Santa'),str('Rua Sergipe 31, Menezes'))
+    result= json.load(urllib.urlopen(url))
+    print result
+    print resul.status.rows.elements.duration.value
+    teste = json.dumps(result)
+    print teste
+    return json.dumps(result)
+    
+    
 
 #recupera todos um objeto especifico pelo id
 def recuperaServico(idObj):
