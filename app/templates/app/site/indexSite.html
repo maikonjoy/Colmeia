@@ -1,6 +1,7 @@
 ﻿{% extends "app/site/layoutSite.html" %}
 {% load staticfiles %}
 {% block content %}
+{% load humanize %}
 {% load filtros %}
 <script src="{% static 'sistema/scripts/jquery-1.9.1.min.js' %}" type="text/javascript"></script>
 <script type="text/javascript">
@@ -138,7 +139,7 @@
                        {% for categoria, subcategoria, quantidade, qtTotal,perc in servicosPopulares %}
                 <strong>{{categoria}} - {{ subcategoria}}</strong> <span class="pull-right small muted">{{perc | replace}}%</span>
                 <div class="progress">
-                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:{{perc | replace}}%">   {{perc | replace}}%               
+                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:{{perc |floatformat:2|intcomma|replace}}%">   {{perc |floatformat:2|intcomma|replace}}%               
                             </div>
                     </div>
                  

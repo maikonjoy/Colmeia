@@ -83,6 +83,7 @@
     <Content Include="app\static\sistema\images\icons\servicesPrestados.png" />
     <Content Include="app\static\sistema\images\icons\servicos.png" />
     <Content Include="app\static\sistema\images\icons\servicosPrest2.png" />
+    <Content Include="app\static\sistema\images\icons\star.gif" />
     <Content Include="app\static\sistema\images\img.jpg" />
     <Content Include="app\static\sistema\images\jquery-ui\picker.png" />
     <Content Include="app\static\sistema\images\logo.png" />
@@ -98,7 +99,9 @@
     <Content Include="app\static\sistema\scripts\ie10-viewport-bug-workaround.js" />
     <Content Include="app\static\sistema\scripts\jquery-1.9.1.min.js" />
     <Content Include="app\static\sistema\scripts\jquery-ui-1.10.1.custom.min.js" />
+    <Content Include="app\static\sistema\scripts\jquery.barrating.min.js" />
     <Content Include="app\static\sistema\scripts\jquery.mask.min.js" />
+    <Content Include="app\static\sistema\scripts\jquery.rating.js" />
     <Content Include="app\static\sistema\scripts\jssor.slider.mini.js" />
     <Content Include="app\templates\app\geral\feedbackUser\msgAlerta.html" />
     <Content Include="app\templates\app\geral\feedbackUser\msgSucesso.html" />
