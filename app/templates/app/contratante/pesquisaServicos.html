@@ -40,6 +40,10 @@
         
         $('#id_IdCategoria').on('change', function () {
             var categoriaID = $(this).val();
+            if (categoriaID == '') {
+                $('#id_IdSubCategoria').prop('disabled', true);
+            }
+
             $.ajax({
                 url: 'subCategorias/',
                 type: 'POST',
@@ -58,7 +62,7 @@
                                 value: this.pk,
                                 text: this.fields['DescricaoSubCategoria']
                             }));
-                            $('#id_IdSubCategoria').prop('disabled',false);
+                            $('#id_IdSubCategoria').prop('disabled', false);
                         });
                     } else {
                         console.log('error');
@@ -117,7 +121,8 @@
                   {% if frmPesquisa %}
                     
                    <form class="form-horizontal row-fluid" style="border: 0px solid;" id="formPesquisa" action="pesquisa" method="POST">
-                      <div>
+                       {% csrf_token %} 
+                       <div>
                         {{ frmPesquisa.IdCategoria }} 
                        {{ frmPesquisa.IdSubCategoria }} 
                        {{ frmPesquisa.PalavraChave }}
@@ -127,13 +132,13 @@
                         
                        <div style="border:0px solid;margin-top:20px;float:left;" id="pesquisaAvancada">
                            <strong> Disponibilidade: </strong>
-                           <label class="checkbox inline" for="domingo"> <input type="checkbox" name="DiasSemana" id="domingo" value="2 "> Domingo </label>
-                           <label class="checkbox inline" for="segunda">   <input type="checkbox" name="DiasSemana" id="segunda" value="2 "> Segunda-Feira </label>
-                           <label class="checkbox inline" for="terca">    <input type="checkbox" name="DiasSemana" id="terca" value="3 "> Terça-Feira </label> 
-                           <label class="checkbox inline" for="quarta">  <input type="checkbox" name="DiasSemana" id="quarta" value="4 "> Quarta-Feira </label>      
-                           <label class="checkbox inline" for="quinta">   <input type="checkbox" name="DiasSemana" id="quinta" value="5 "> Quinta-Feira </label>
-                           <label class="checkbox inline" for="sexta">    <input type="checkbox" name="DiasSemana" id="sexta" value="6 "> Sexta-Feira </label>
-                           <label class="checkbox inline" for="sabado"> <input type="checkbox" name="DiasSemana" id="sabado" value="7 "> Sábado </label>
+                           <label class="checkbox inline" for="domingo"> <input type="checkbox" name="DiasSemana[]" id="domingo" value="1"> Domingo </label>
+                           <label class="checkbox inline" for="segunda">   <input type="checkbox" name="DiasSemana[]" id="segunda" value="2"> Segunda-Feira </label>
+                           <label class="checkbox inline" for="terca">    <input type="checkbox" name="DiasSemana[]" id="terca" value="3"> Terça-Feira </label> 
+                           <label class="checkbox inline" for="quarta">  <input type="checkbox" name="DiasSemana[]" id="quarta" value="4"> Quarta-Feira </label>      
+                           <label class="checkbox inline" for="quinta">   <input type="checkbox" name="DiasSemana[]" id="quinta" value="5"> Quinta-Feira </label>
+                           <label class="checkbox inline" for="sexta">    <input type="checkbox" name="DiasSemana[]" id="sexta" value="6"> Sexta-Feira </label>
+                           <label class="checkbox inline" for="sabado"> <input type="checkbox" name="DiasSemana[]" id="sabado" value="7"> Sábado </label>
                            <br>
                            <span> Avaliação do Prestador: </span>   
                                  {{ frmPesquisa.Avaliacao }} 

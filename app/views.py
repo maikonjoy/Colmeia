@@ -354,6 +354,33 @@ def pesquisaServicos(request):
             })
     )
 
+@login_required(redirect_field_name='')
+def pesquisarServicos(request):
+    if not request.user.is_authenticated():
+        return HttpResponse('loginpage')
+    else:
+        frmPesquisa = PesquisaForm()
+        frmContratar = ContrataServicoForm()
+        if request.session.has_key('msg'):
+            msg = request.session['msg']
+            del request.session['msg']
+        else:
+            msg = None
+        servicos = p_clienteServico.pesquisa(request, request.user.id)
+        return render(
+            request,
+            'app/contratante/pesquisaServicos.html',
+            context_instance = RequestContext(request,
+            {
+                'title':'Colmeia | Contratante',
+                'year':datetime.now().year,
+                'msg': msg,
+                'servicos': servicos,
+                #'distancias': p_servico.obterDistancias(servicos),
+                'frmPesquisa': frmPesquisa,
+                'frmContratar' : frmContratar,
+            })
+    )
 #PAGINA CADASTRAL CONTRATANTES 
 @login_required(redirect_field_name='')
 def servContratados(request):

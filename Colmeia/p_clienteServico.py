@@ -47,10 +47,7 @@ def excluir(request):
 #recupera todos os objetos
 def recuperaServicos():
     objClienteServico = models.ClienteServico.objects.filter(IdServico__IdUsuario_id != id_user)
-    return objClienteServico
-
-
-    
+    return objClienteServico    
 
 #recupera todos um objeto especifico pelo id
 def recuperaServico(idObj):
@@ -135,12 +132,20 @@ def servicosMaisPopulares():
     rows = cursor.fetchall()
     return rows
 
-def pesquisa(request):
+def pesquisa(request,id_user):
     IdCategoria = request.POST['IdCategoria']
     IdSubCategoria = request.POST['IdSubCategoria']
-    PalavraChave = request.POST['PalavraChave']
-    DiasSemana = request.POST['DiasSemana']
-    IdCategoria = request.POST['IdCategoria']
+    PalavraChave = ''
+    DiasSemana = None
+    if (request.POST['PalavraChave']):
+        PalavraChave = request.POST['PalavraChave']
+    if (request.POST['DiasSemana[]']):
+        DiasSemana = request.POST.getlist('DiasSemana[]')
+    print '************************************************** ====== '
+    print DiasSemana
+    servicos = models.ClienteServico.objects.filter(IdServico__IdSubCategoria_id = IdSubCategoria, IdServico__DescricaoServico__contains = PalavraChave).exclude(IdUsuario_id = id_user)
+    return servicos
+
 def recuperaQuantidadeServicos():
     servicos = models.ClienteServico.objects.all().count()
     return servicos
