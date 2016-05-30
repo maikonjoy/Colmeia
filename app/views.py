@@ -338,6 +338,7 @@ def pesquisaServicos(request):
             del request.session['msg']
         else:
             msg = None
+        servicos = p_servico.recuperaServicosParaOContratante(request.user.id)
         return render(
             request,
             'app/contratante/pesquisaServicos.html',
@@ -346,8 +347,8 @@ def pesquisaServicos(request):
                 'title':'Colmeia | Contratante',
                 'year':datetime.now().year,
                 'msg': msg,
-                'servicos': p_servico.recuperaServicosParaOContratante(request.user.id),
-                'distancias': p_servico.obterDistancias(),
+                'servicos': servicos,
+                #'distancias': p_servico.obterDistancias(servicos),
                 'frmPesquisa': frmPesquisa,
                 'frmContratar' : frmContratar,
             })
@@ -391,7 +392,6 @@ def relContratante(request):
                 'year':datetime.now().year,
             })
     )
-
 
 def sair(request):
     #Renders the about page.

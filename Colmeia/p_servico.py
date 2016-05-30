@@ -11,7 +11,7 @@ from django.db import connection
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 import urllib
-import json
+import simplejson
 
 def incluir(request):
     objSubCategoria = models.SubCategoria.objects.get(IdSubCategoria = request.POST['IdSubCategoria'])
@@ -51,15 +51,20 @@ def recuperaServicosParaOContratante(id_user):
     objServico = models.Servico.objects.exclude(IdUsuario_id = id_user)
     return objServico
 
-def obterDistancias():
-    url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins={0}&destinations={1}&mode=driving&language=en-EN&sensor=false".format(str('Rua Expedicionarios 416, Lagoa Santa'),str('Rua Sergipe 31, Menezes'))
-    result= json.load(urllib.urlopen(url))
-    print result
-    print resul.status.rows.elements.duration.value
-    teste = json.dumps(result)
-    print teste
-    return json.dumps(result)
-    
+def obterDistancias(objServicos):
+    lista = []
+
+    for obj in objServicos:
+        url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins={0}&destinations={1}&mode=driving&language=en-EN&sensor=false".format(str('Rua Expedicionarios 416, Lagoa Santa'),str('Rua Sergipe 31, Menezes'))
+
+        result= simplejson.load(urllib.urlopen(url))
+        distancia = result['rows'][0]['elements'][0]['distance']['text']
+        
+        if distancia != '':
+            lista.append(distancia)
+        else:
+            lista.append('Indisponível')
+    return lista
     
 
 #recupera todos um objeto especifico pelo id

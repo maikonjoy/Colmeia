@@ -201,6 +201,7 @@ class DisponibilidadeForm(forms.Form):
                                    'required' : 'required'
                                    }))
 
+AVALIACAO = (('',u'-- Avaliação -- '),('0',u'0 - Muito Ruim'), ('1',u'1 - Ruim'), ('2',u'1 - Mediano'), ('3',u'3 - Bom '), ('4',u'4 - Ótimo'), ('5',u'Excelente'))
 class PesquisaForm(forms.Form):
      IdCategoria = forms.ModelChoiceField(queryset= Categoria.objects.all().order_by('DescricaoCategoria'),label= u'',  widget=forms.Select({
                                    'class': 'form-control',
@@ -210,7 +211,7 @@ class PesquisaForm(forms.Form):
      IdSubCategoria = forms.ModelChoiceField(queryset= SubCategoria.objects.all().order_by('DescricaoSubCategoria'),label= u'',  widget=forms.Select({
                                    'class': 'form-control',
                                    'style': 'float:left;margin-left: 20px;',
-                                   'required' : 'required',
+                                   'required' : 'required'
                                    }))
 
      PalavraChave = forms.CharField(label= u'',  widget=forms.TextInput({
@@ -218,6 +219,13 @@ class PesquisaForm(forms.Form):
                                    'style': 'float:left;margin-left: 20px;height: auto',
                                    'placeholder' : 'Palavra chave: Carteira B, Domicílio, etc.'
                                    }))
+     IdDiaSemana = forms.ModelChoiceField(queryset= DiaSemana.objects.all().order_by('IdDiaSemana'),label= u'Disponibilidade',  widget=forms.Select({
+                                   'class': 'form-control',
+                                   'style': 'margin-bottom: 10px;'
+                                   }))
+     Avaliacao =  forms.ChoiceField(choices = AVALIACAO, widget=forms.Select({'class': 'form-control',
+                                                    'style': 'margin-bottom: 10px; width: 200px;'
+                                                    }))
 
 class PesquisaFormSite(forms.Form):
      IdCategoria = forms.ModelChoiceField(queryset= Categoria.objects.all().order_by('DescricaoCategoria'),label= u'',  widget=forms.Select({
