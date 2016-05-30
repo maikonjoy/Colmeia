@@ -12,6 +12,7 @@ from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 import datetime
 from django.db import connection
+from django.db.models import Count
 
 def contrataServico(request):
     objUser = models.Usuario.objects.get(IdUsuario = request.user.id)
@@ -135,23 +136,35 @@ def servicosMaisPopulares():
 def pesquisa(request,id_user):
     IdCategoria = request.POST['IdCategoria']
     IdSubCategoria = request.POST['IdSubCategoria']
-    
+    servicos = None
     if (not 'PalavraChave' in request.POST):
         PalavraChave = ''
     else:
         PalavraChave = request.POST['PalavraChave']
 
-    if (not 'DiasSemana[]' in request.POST)and(not 'Avaliacao' in request.POST):
+    if (not 'DiasSemana' in request.POST)and(request.POST['Avaliacao'] == ''):
         servicos = models.Servico.objects.filter(IdSubCategoria_id = IdSubCategoria, DescricaoServico__contains = PalavraChave).exclude(IdUsuario_id = id_user)
     
-    if (not 'DiasSemana[]' in request.POST)and('Avaliacao' in request.POST):
+    if (not 'DiasSemana' in request.POST)and(request.POST['Avaliacao'] != ''):
         AV = request.POST['Avaliacao']
-        servicos = models.Servico.objects.filter(IdSubCategoria_id = IdSubCategoria, MediaAvaliacao = AV, DescricaoServico__contains = PalavraChave).exclude(IdUsuario_id = id_user)
+        servicos = models.Servico.objects.filter(IdSubCategoria_id = IdSubCategoria, MediaAvaliacao__gte = AV, DescricaoServico__contains = PalavraChave).exclude(IdUsuario_id = id_user)
     
-    if ('DiasSemana[]' in request.POST)and(not 'Avaliacao' in request.POST):
-        dias = request.POST['DiasSemana[]']
+    if ('DiasSemana' in request.POST)and(request.POST['Avaliacao'] == ''):
+        dias = request.POST.getlist('DiasSemana')
         print dias
-        servicos = models.Servico.objects.filter(IdSubCategoria_id = IdSubCategoria, MediaAvaliacao = AV, DescricaoServico__contains = PalavraChave).exclude(IdUsuario_id = id_user)
+        
+        cursor = connection.cursor()
+        #print ('SELECT idUsuario_id FROM app_disponibilidadeusuario AS DU WHERE idDiaSemana_id IN %s group by DU.IdUsuario_id',[dias])
+        #cursor.execute('SELECT idUsuario_id FROM app_disponibilidadeusuario AS DU WHERE idDiaSemana_id IN %s group by DU.IdUsuario_id',[dias])
+        #rows = cursor.fetchall()
+        lista = []
+        #IdUsuarios = models.DisponibilidadeUsuario.objects.filter(idDiaSemana_id__in = dias).values_list('idUsuario_id') 
+        IdUsuarios = models.DisponibilidadeUsuario.objects.filter(idDiaSemana_id__in = dias).values_list('idUsuario_id').annotate(total=Count('idUsuario'))
+       
+        for usuario in IdUsuarios:
+                lista.append(usuario[0])
+        print lista
+        servicos = models.Servico.objects.filter(IdSubCategoria_id = IdSubCategoria, IdUsuario_id__in = lista, DescricaoServico__contains = PalavraChave).exclude(IdUsuario_id = id_user)
     
     return servicos
 

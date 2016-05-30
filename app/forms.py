@@ -201,7 +201,7 @@ class DisponibilidadeForm(forms.Form):
                                    'required' : 'required'
                                    }))
 
-AVALIACAO = (('',u'-- Avaliação -- '),('0',u'0 - Muito Ruim'), ('1',u'1 - Ruim'), ('2',u'1 - Mediano'), ('3',u'3 - Bom '), ('4',u'4 - Ótimo'), ('5',u'Excelente'))
+AVALIACAO = (('',u'-- Avaliação -- '),('0',u'0 - Muito Ruim'), ('1',u'1 - Ruim'), ('2',u'2 - Mediano'), ('3',u'3 - Bom '), ('4',u'4 - Ótimo'), ('5',u'Excelente'))
 class PesquisaForm(forms.Form):
      IdCategoria = forms.ModelChoiceField(queryset= Categoria.objects.all().order_by('DescricaoCategoria'),label= u'',  widget=forms.Select({
                                    'class': 'form-control',
