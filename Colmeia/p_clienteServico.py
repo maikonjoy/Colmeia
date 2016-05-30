@@ -135,6 +135,12 @@ def servicosMaisPopulares():
     rows = cursor.fetchall()
     return rows
 
+def pesquisa(request):
+    IdCategoria = request.POST['IdCategoria']
+    IdSubCategoria = request.POST['IdSubCategoria']
+    PalavraChave = request.POST['PalavraChave']
+    DiasSemana = request.POST['DiasSemana']
+    IdCategoria = request.POST['IdCategoria']
 def recuperaQuantidadeServicos():
     servicos = models.ClienteServico.objects.all().count()
     return servicos

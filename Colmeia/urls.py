@@ -80,6 +80,7 @@ urlpatterns = patterns('',
     url(r'^cancelarServicoP', p_clienteServico.cancelarServicoP, name='cancelarServicoP'),
     url(r'^cancelarServicoC', p_clienteServico.cancelarServicoC, name='cancelarServicoC'),
     
+    url(r'^pesquisa', p_clienteServico.pesquisa, name='pesquisa'),
     #Site Principal
     url(r'^s_contato', 'app.views.s_contato', name='s_contato'),
     url(r'^s_quemSomos', 'app.views.s_quemSomos', name='s_quemSomos'),
