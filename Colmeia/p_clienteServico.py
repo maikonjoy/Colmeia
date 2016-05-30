@@ -135,15 +135,24 @@ def servicosMaisPopulares():
 def pesquisa(request,id_user):
     IdCategoria = request.POST['IdCategoria']
     IdSubCategoria = request.POST['IdSubCategoria']
-    PalavraChave = ''
-    DiasSemana = None
-    if (request.POST['PalavraChave']):
+    
+    if (not 'PalavraChave' in request.POST):
+        PalavraChave = ''
+    else:
         PalavraChave = request.POST['PalavraChave']
-    if (request.POST['DiasSemana[]']):
-        DiasSemana = request.POST.getlist('DiasSemana[]')
-    print '************************************************** ====== '
-    print DiasSemana
-    servicos = models.ClienteServico.objects.filter(IdServico__IdSubCategoria_id = IdSubCategoria, IdServico__DescricaoServico__contains = PalavraChave).exclude(IdUsuario_id = id_user)
+
+    if (not 'DiasSemana[]' in request.POST)and(not 'Avaliacao' in request.POST):
+        servicos = models.Servico.objects.filter(IdSubCategoria_id = IdSubCategoria, DescricaoServico__contains = PalavraChave).exclude(IdUsuario_id = id_user)
+    
+    if (not 'DiasSemana[]' in request.POST)and('Avaliacao' in request.POST):
+        AV = request.POST['Avaliacao']
+        servicos = models.Servico.objects.filter(IdSubCategoria_id = IdSubCategoria, MediaAvaliacao = AV, DescricaoServico__contains = PalavraChave).exclude(IdUsuario_id = id_user)
+    
+    if ('DiasSemana[]' in request.POST)and(not 'Avaliacao' in request.POST):
+        dias = request.POST['DiasSemana[]']
+        print dias
+        servicos = models.Servico.objects.filter(IdSubCategoria_id = IdSubCategoria, MediaAvaliacao = AV, DescricaoServico__contains = PalavraChave).exclude(IdUsuario_id = id_user)
+    
     return servicos
 
 def recuperaQuantidadeServicos():
