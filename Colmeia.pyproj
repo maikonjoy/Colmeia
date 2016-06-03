@@ -159,6 +159,9 @@
     <Compile Include="Colmeia\p_categoria.py" />
     <Compile Include="Colmeia\p_diferencial.py" />
     <Compile Include="Colmeia\p_clienteServico.py" />
+    <Compile Include="Colmeia\p_relatorios.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Colmeia\p_servico.py" />
     <Compile Include="Colmeia\p_perfil.py">
       <SubType>Code</SubType>

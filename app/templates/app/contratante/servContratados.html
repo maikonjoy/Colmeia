@@ -1,19 +1,10 @@
 ﻿{% extends "app/geral/layout.html" %}
  {% load staticfiles %}
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-<script src="{% static 'sistema/scripts/jquery-1.9.1.min.js' %}" type="text/javascript"></script>
 <script src="{% static 'sistema/scripts/jquery.barrating.min.js' %}"></script>
 
 {% block content %}
 {% load humanize %}
 
-<script type="text/javascript">
-   $(function() {
-      $('#example').barrating({
-        theme: 'fontawesome-stars'
-      });
-   });
-</script>
 <style>
 
     #AP {
@@ -78,9 +69,32 @@
 
 
 
-<script type="text/javascript">
- $(document).ready(function () {
+<script>
 
+$(document).ready(function () {
+    $('.avaliacao').on('change', function () {
+        var idClienteServico = $(this).attr('id');
+        var nota = $('#' + idClienteServico).val();
+        
+        $.ajax({
+            url: 'avaliarServico/',
+            type: 'POST',
+            data: { 'IdClienteServico': idClienteServico, 'nota': nota, 'csrfmiddlewaretoken': $("input[name = 'csrfmiddlewaretoken']").val() },
+            success: function (response) {
+                result = JSON.parse(response);
+                if (result) {
+                    $('#' + idClienteServico).prop('disabled', false);
+                    alert('Avaliação Efetuada com Sucesso!');
+                } else {
+                    console.log('error');
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+    
      $('#vTodos').on('click', function () {
          $('.divAP').fadeIn('fast')
          $('.divCP').fadeIn('fast')
@@ -95,43 +109,41 @@
          $('.divCP').fadeOut('fast')
          $('.divEX').fadeOut('fast')
          $('.divAV').fadeOut('fast')
-      
      });
 
      $('#vPendentes').on('click', function () {
-         $('.divAG').fadeOut('fast')
-         $('.divCP').fadeOut('fast')
-         $('.divEX').fadeOut('fast')
-         $('.divAV').fadeOut('fast')
-         $('.divAP').fadeIn('fast')
+         $('.divAG').fadeOut('fast');
+         $('.divCP').fadeOut('fast');
+         $('.divEX').fadeOut('fast');
+         $('.divAV').fadeOut('fast');
+         $('.divAP').fadeIn('fast');
      });
 
      $('#vCancelados').on('click', function () {
-         $('.divAG').fadeOut('fast')
-         $('.divAP').fadeOut('fast')
-         $('.divEX').fadeOut('fast')
-         $('.divAV').fadeOut('fast')
-         $('.divCP').fadeIn('fast')
-         $('.divCC').fadeIn('fast')
+         $('.divAG').fadeOut('fast');
+         $('.divAP').fadeOut('fast');
+         $('.divEX').fadeOut('fast');
+         $('.divAV').fadeOut('fast');
+         $('.divCP').fadeIn('fast');
+         $('.divCC').fadeIn('fast');
      });
 
      $('#vAvaliados').on('click', function () {
-         $('.divAG').fadeOut('fast')
-         $('.divCP').fadeOut('fast')
-         $('.divEX').fadeOut('fast')
-         $('.divAA').fadeOut('fast')
-         $('.divAV').fadeIn('fast')
+         $('.divAG').fadeOut('fast');
+         $('.divCP').fadeOut('fast');
+         $('.divEX').fadeOut('fast');
+         $('.divAA').fadeOut('fast');
+         $('.divAV').fadeIn('fast');
      });
 
      $('#vExecutados').on('click', function () {
-         $('.divAG').fadeOut('fast')
-         $('.divCP').fadeOut('fast')
-         $('.divAA').fadeOut('fast')
-         $('.divAV').fadeOut('fast')
-         $('.divEX').fadeIn('fast')
+         $('.divAG').fadeOut('fast');
+         $('.divCP').fadeOut('fast');
+         $('.divAA').fadeOut('fast');
+         $('.divAV').fadeOut('fast');
+         $('.divEX').fadeIn('fast');
      });
  });
-
 </script>
 
 <div class="span3">
@@ -145,6 +157,7 @@
                 
             </div>
         <br />
+        {% csrf_token %}
         <div class="btn-group btn-group-justified span9" style="border:0px solid;display: block;align:center;" role="group">
 								
                     <button class="btn btn-default" role="group" id="vTodos">	Todos </button>
@@ -185,19 +198,25 @@
                             <p><p><strong style="margin-left:30px;">  Descrição: </strong> {{ servico.Descricao}}</p></p>
                              
                             <div style="float:right;display:block;" >
-                              <div class="br-wrapper br-theme-fontawesome-stars">
-  <select id="example"> <!-- now hidden -->
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-    <option value="5">5</option>
-  </select>
- 
-</div>
+                              
+                               
                                 <!-- CANCELAR -->
 						        <a href="cancelarServicoC/?id={{servico.IdClienteServico}}" title="Cancelar" style="margin-left: 10px;"><img src="{% static 'sistema/images/icons/cancelar.png'%}" width="25px" alt="Editar" /></a>
                             </div>
+                        {% if servico.IdSituacao_id == 'EX'%}
+                                <div style="float:right;">
+                                    
+                                    <select id="{{ servico.IdClienteServico}}" class="avaliacao"> <!-- now hidden -->
+                                    <option value="">--Avalie!--</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    </select>
+ 
+                                </div>
+                        {% endif %}
                     <br />
                         <hr />
                     </div>

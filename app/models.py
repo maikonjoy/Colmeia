@@ -157,7 +157,7 @@ class Servico(models.Model):
     IndicadorTipoServico = models.IntegerField(choices=TIPO_SERVICO, verbose_name='Categoria do Serviço')
     DescricaoServico = models.CharField(max_length = 100, verbose_name='Descrição do Serviço')
     ValorHora = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Valor/Hora')
-    MediaAvaliacao = models.IntegerField()
+    MediaAvaliacao = models.DecimalField(max_digits=10, decimal_places=2)
     DataHoraInclusao = models.DateTimeField(auto_now_add=True)
     DataHoraExclusao = models.DateTimeField(null = True)
 

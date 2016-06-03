@@ -13,6 +13,7 @@ from django.core.urlresolvers import reverse
 import datetime
 from django.db import connection
 from django.db.models import Count
+from django.db.models import Avg
 
 def contrataServico(request):
     objUser = models.Usuario.objects.get(IdUsuario = request.user.id)
@@ -23,20 +24,6 @@ def contrataServico(request):
     objClienteServico.save()
     request.session['msg'] = 'Serviço contratado com sucesso! Aguarde aprovação do prestador. '
     return redirect('servContratados')
-    
-#def alterar(request):
-#    idObj = request.GET['id']
-#    objServico = models.Servico.objects.get(IdServico=idObj)
-#    objSubCategoria = models.SubCategoria.objects.get(IdSubCategoria = request.POST['IdSubCategoria'])
-#    objCategoria = models.Categoria.objects.get(IdCategoria = objSubCategoria.IdCategoria_id)
-#    objServico.IdCategoria = objCategoria
-#    objServico.IdSubCategoria_id = objSubCategoria
-#    objServico.ValorHora = request.POST['ValorHora']
-#    objServico.IndicadorTipoServico = request.POST['IndicadorTipoServico']
-#    objServico.DescricaoServico = request.POST['DescricaoServico']
-
-#    objServico.save()
-#    return redirect('SeD')
 
 #exclui um objeto especifico pelo id e o retorna para confirmar a exclusao do objeto
 def excluir(request):
@@ -114,16 +101,27 @@ def cancelarServicoC(request):
 
 #AVALIAÇÃO DO SERVICO PELO CLIENTE
 def avaliarServico(request):
-    id = request.GET['id']
-    av = request.GET['av']
+    id = request.POST['IdClienteServico']
+    av = request.POST['nota']
+    
     objClienteServico = models.ClienteServico.objects.get(IdClienteServico = id)
+    u = objClienteServico.IdServico.IdUsuario_id
     objSituacao = models.SituacaoServico.objects.get(IdSituacaoServico = 'AV')
     objClienteServico.IdSituacao_id = objSituacao
     objClienteServico.Avaliacao = av
     objClienteServico.DataHoraSituacao = datetime.datetime.now()
     objClienteServico.save()
+    
+    teste = models.ClienteServico.objects.filter(IdServico__IdUsuario_id = u)
+    media = models.ClienteServico.objects.filter(IdServico__IdUsuario_id = u, IdSituacao_id='AV').aggregate(Avg('Avaliacao')).values()[0]
+    
+    if(media is not None):
+        objServico = models.Servico.objects.get(IdServico = objClienteServico.IdServico_id)
+        objServico.MediaAvaliacao = media
+        objServico.save()
+    
     request.session['msg'] = 'Serviço avaliado com sucesso!'
-    return redirect('servContratados')
+    return HttpResponse('OK')
 
 #RECUPERA OS 6 SERVICOS MAIS POPULARES
 def servicosMaisPopulares():
@@ -137,34 +135,32 @@ def pesquisa(request,id_user):
     IdCategoria = request.POST['IdCategoria']
     IdSubCategoria = request.POST['IdSubCategoria']
     servicos = None
+    AV = ''
     if (not 'PalavraChave' in request.POST):
         PalavraChave = ''
     else:
         PalavraChave = request.POST['PalavraChave']
 
-    if (not 'DiasSemana' in request.POST)and(request.POST['Avaliacao'] == ''):
-        servicos = models.Servico.objects.filter(IdSubCategoria_id = IdSubCategoria, DescricaoServico__contains = PalavraChave).exclude(IdUsuario_id = id_user)
-    
-    if (not 'DiasSemana' in request.POST)and(request.POST['Avaliacao'] != ''):
-        AV = request.POST['Avaliacao']
-        servicos = models.Servico.objects.filter(IdSubCategoria_id = IdSubCategoria, MediaAvaliacao__gte = AV, DescricaoServico__contains = PalavraChave).exclude(IdUsuario_id = id_user)
-    
-    if ('DiasSemana' in request.POST)and(request.POST['Avaliacao'] == ''):
+    if (not 'DiasSemana' in request.POST):
+        if (request.POST['Avaliacao'] == ''):
+            servicos = models.Servico.objects.filter(IdSubCategoria_id = IdSubCategoria, DescricaoServico__contains = PalavraChave).exclude(IdUsuario_id = id_user)
+        else:
+            AV = request.POST['Avaliacao']
+            servicos = models.Servico.objects.filter(IdSubCategoria_id = IdSubCategoria, MediaAvaliacao__gte = AV, DescricaoServico__contains = PalavraChave).exclude(IdUsuario_id = id_user)
+
+    elif ('DiasSemana' in request.POST):
         dias = request.POST.getlist('DiasSemana')
-        print dias
-        
-        cursor = connection.cursor()
-        #print ('SELECT idUsuario_id FROM app_disponibilidadeusuario AS DU WHERE idDiaSemana_id IN %s group by DU.IdUsuario_id',[dias])
-        #cursor.execute('SELECT idUsuario_id FROM app_disponibilidadeusuario AS DU WHERE idDiaSemana_id IN %s group by DU.IdUsuario_id',[dias])
-        #rows = cursor.fetchall()
-        lista = []
-        #IdUsuarios = models.DisponibilidadeUsuario.objects.filter(idDiaSemana_id__in = dias).values_list('idUsuario_id') 
+        lista = [] #guarda os usuarios com disponibilidade nos dias marcados na busca
         IdUsuarios = models.DisponibilidadeUsuario.objects.filter(idDiaSemana_id__in = dias).values_list('idUsuario_id').annotate(total=Count('idUsuario'))
-       
+       #converte o retorno para uma lista comum apenas com o Id dos Usuários sem repetição. 
         for usuario in IdUsuarios:
                 lista.append(usuario[0])
-        print lista
-        servicos = models.Servico.objects.filter(IdSubCategoria_id = IdSubCategoria, IdUsuario_id__in = lista, DescricaoServico__contains = PalavraChave).exclude(IdUsuario_id = id_user)
+        if (request.POST['Avaliacao'] == ''):
+            #consulta no banco os servicos 
+            servicos = models.Servico.objects.filter(IdSubCategoria_id = IdSubCategoria, IdUsuario_id__in = lista, DescricaoServico__contains = PalavraChave).exclude(IdUsuario_id = id_user)
+        else:
+            AV = request.POST['Avaliacao']
+            servicos = models.Servico.objects.filter(IdSubCategoria_id = IdSubCategoria, IdUsuario_id__in = lista, MediaAvaliacao__gte = AV, DescricaoServico__contains = PalavraChave).exclude(IdUsuario_id = id_user)
     
     return servicos
 

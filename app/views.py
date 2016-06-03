@@ -15,7 +15,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from datetime import datetime
 from .forms import UsuarioForm, UserForm, EnderecoForm, DiferencialForm, ServicoForm, DisponibilidadeForm, PesquisaForm,PesquisaFormSite,ContrataServicoForm
-from Colmeia import p_usuario
+from Colmeia import p_usuario, p_relatorios
 from Colmeia import p_servico, p_categoria, p_diferencial, p_disponibilidade, p_clienteServico
 
 #PAGINA INICIAL DO SITE (GERAL)
@@ -167,21 +167,7 @@ def contratantes(request):
             })
     )
     
-#PAGINA INICIAL DOS RELATÓRIOS ADM.
-@login_required(redirect_field_name='')
-def relatorioAdm(request):
-    if not request.user.is_authenticated():
-        return HttpResponse('loginpage')
-    else:
-        return render(
-            request,
-            'app/admin/relatorioAdm.html',
-            context_instance = RequestContext(request,
-            {
-                'title':'Colmeia | Relatorios',
-                'year':datetime.now().year,
-            })
-    )
+
    
 
 #PAGINA CADASTRAL DO PRESTADOR
@@ -308,22 +294,7 @@ def colmeiaPontos(request):
             })
     )
 
-#PAGINA DO COLMEIA PONTOS
-@login_required(redirect_field_name='')
-def relPrestador(request):
-    if not request.user.is_authenticated():
-        return HttpResponse('loginpage')
-    else:
-        return render(
-            request,
-            'app/prestador/relatorioPrestador.html',
-            context_instance = RequestContext(request,
-            {
-                'title':'Colmeia | Relatorios Prestador',
-                'year':datetime.now().year,
-            })
-    )
-       
+
 #VIEWS DOS CONTRATANTES
 #PAGINA DOS SERVICOS CONTRATADOS
 @login_required(redirect_field_name='')
@@ -351,6 +322,7 @@ def pesquisaServicos(request):
                 #'distancias': p_servico.obterDistancias(servicos),
                 'frmPesquisa': frmPesquisa,
                 'frmContratar' : frmContratar,
+                #'objetos': objeto,
             })
     )
 
@@ -367,6 +339,8 @@ def pesquisarServicos(request):
         else:
             msg = None
         servicos = p_clienteServico.pesquisa(request, request.user.id)
+        #distancias = p_servico.obterDistancias(servicos),
+        
         return render(
             request,
             'app/contratante/pesquisaServicos.html',
@@ -379,6 +353,7 @@ def pesquisarServicos(request):
                 #'distancias': p_servico.obterDistancias(servicos),
                 'frmPesquisa': frmPesquisa,
                 'frmContratar' : frmContratar,
+                
             })
     )
 #PAGINA CADASTRAL CONTRATANTES 
@@ -417,8 +392,45 @@ def relContratante(request):
             {
                 'title':'Colmeia | Relatorios Contratante',
                 'year':datetime.now().year,
+                'servicosContratados': p_relatorios.servicosContratados(request.user.id)
             })
     )
+
+#PAGINA DO COLMEIA PONTOS
+@login_required(redirect_field_name='')
+def relPrestador(request):
+    if not request.user.is_authenticated():
+        return HttpResponse('loginpage')
+    else:
+        return render(
+            request,
+            'app/prestador/relatorioPrestador.html',
+            context_instance = RequestContext(request,
+            {
+                'title':'Colmeia | Relatorios Prestador',
+                'year':datetime.now().year,
+            })
+    )
+
+#PAGINA INICIAL DOS RELATÓRIOS ADM.
+@login_required(redirect_field_name='')
+def relatorioAdm(request):
+    if not request.user.is_authenticated():
+        return HttpResponse('loginpage')
+    else:
+        return render(
+            request,
+            'app/admin/relatorioAdm.html',
+            context_instance = RequestContext(request,
+            {
+                'title':'Colmeia | Relatorios',
+                'year':datetime.now().year,
+                'quantidadeUsuariosGeral': p_relatorios.quantidadeUsuariosGeral(),
+                'quantidadeUsuariosMensal': p_relatorios.quantidadeUsuariosMensal(),
+                'melhoresAvaliacoes': p_relatorios.melhoresAvaliacoes(),
+                'pioresAvaliacoes': p_relatorios.pioresAvaliacoes(),
+            })
+    )      
 
 def sair(request):
     #Renders the about page.

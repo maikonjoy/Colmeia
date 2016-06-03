@@ -54,16 +54,15 @@ def recuperaServicosParaOContratante(id_user):
 def obterDistancias(objServicos):
     lista = []
 
-    for obj in objServicos:
-        url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins={0}&destinations={1}&mode=driving&language=en-EN&sensor=false".format(str('Rua Expedicionarios 416, Lagoa Santa'),str('Rua Sergipe 31, Menezes'))
+    url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins={0}&destinations={1}&mode=driving&language=en-EN&sensor=false".format(str('Rua Expedicionarios 416, Lagoa Santa'),str('Rua Sergipe 31, Menezes'))
 
-        result= simplejson.load(urllib.urlopen(url))
-        distancia = result['rows'][0]['elements'][0]['distance']['text']
+    result= simplejson.load(urllib.urlopen(url))
+    distancia = result['rows'][0]['elements'][0]['distance']['text']
         
-        if distancia != '':
-            lista.append(distancia)
-        else:
-            lista.append('Indisponível')
+    if distancia != '':
+       lista.append(distancia)
+    else:
+       lista.append('Indisponível')
     return lista
     
 
